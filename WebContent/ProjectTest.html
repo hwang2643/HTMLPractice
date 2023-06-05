@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>FC서울 공식 쇼핑몰 project</title>
+	<style>
+		@font-face {
+			font-family: 'ExoBold';
+			src: url('./font/Exo-Bold.woff') format('woff');
+		}
+		a { text-decoration: none; color: black; }
+		body { line-height: 1; font: 12px/1.2 'Noto Sans KR', sans-serif;}
+		div.border { border: 1px solid red;}
+		#uppermain { width:1000px; margin: 0 auto; margin-top:20px; }
+		#categorybackground { 
+			width: 100%;
+    		height: 52px;
+		    margin-top: 22px;
+		    background: #c70101;
+		}
+		#maincontent { }
+		.fl { float: left; }
+		.fr { float: right; }
+		.fc { float: center; }
+		div.mainlogo { width: 274px; height: 69px; }
+		.mainlogo:hover { cursor: pointer; }
+		.searchbox {
+			position: relative;
+			border: 2px solid #c71f2c;
+		    height: 30px;
+		    width: 332px;
+		    margin: 23px 0 0 81px;
+		}
+		#maintxt {
+			width: 277px;
+		    height: 24px;
+		    margin-top: 2px;
+		    border: none;
+		}
+		input {
+			background-color: #fff;
+			text-align: left;
+			padding-left: 5px;
+		    padding-top: 3px;
+		    font-family: 굴림, Gulim, 맑은고딕, Malgun Gothic, tahoma, 돋움,dotum;
+		    font-size: 12px;
+		}
+		.searchbox button {
+		    position: absolute;
+			width: 50px;
+			height: 100%;
+		    padding: 1px 6px;
+		    border: none;
+		    background: url(https://www.fcseoul.com/resources/shop/_img/renew/ico_search.png) #c71f2c no-repeat center center;
+		}
+		.topmenu {
+			margin: 35px 0 0 60px;
+		}
+		.topmenu span {
+			position: relative;
+			float: left;
+    		padding: 0 12px;
+			font-size: 14px;
+    		font-weight: 400;
+    		text-align: -webkit-match-parent;
+		}
+		.topmenu span:hover { cursor: pointer; }
+		.topmenu span:before {
+			content: '';
+			display: block;
+		    width: 1px;
+		    height: 13px;
+		    top: 0;
+    		right: 0;
+    		position: absolute;
+		    background: #d2d2d2;
+		}
+		.topmenu span:last-child::before { display: none;}
+		.maincategory {
+			width: 1000px;
+    		margin: 0 auto;
+		}
+		.maincategory div:first-child { margin-left: 20px; }
+		.category {
+			width: auto;
+		    height: 52px;
+		    padding: 0 27.7px;
+		    line-height: 52px;
+		}
+		.category span {
+			color: #fff;
+		    font-size: 15px;
+		    font-weight: 600;
+		    letter-spacing: -0.5px;
+		    line-height: 52px;
+		}
+		.category span:hover { cursor: pointer; }
+		.view_all {
+			margin-left: 20.5px;
+    		background: #ad0000;
+		}
+		.view_all::after {
+			content: '';
+		    display: inline-block;
+		    width: 7px;
+		    height: 4px;
+		    margin-left: 4px;
+		    background: url(https://www.fcseoul.com/resources/shop/_img/new/btn_all.png) center no-repeat;
+		    vertical-align: middle;
+		}
+		.view_all.on::after {
+			background: url(https://www.fcseoul.com/resources/shop/_img/new/btn_all_on.png) center no-repeat;
+		}
+		.mainslider:hover { cursor: pointer; }
+		.mainslider {
+			width: 100%;
+    		height: 500px;
+    		background: url(https://files.fcseoul.com/multi01/SHOP/Product/Main/2022021147982.jpg) center center / cover no-repeat;
+		    min-width: 1000px;
+		    float: none;
+		    display: block;
+		}
+		.bestgoods {
+			width: 100%;
+		    padding: 50px 0;
+		    background: #f7f7f7;
+		}
+		.title {
+			height: 30px;
+ 			margin-left: 0;
+ 			margin-top: 0;
+			margin-bottom: 20px;
+			font-size: 30px;
+		}
+		.goods_title {
+			width: 1000px;
+   			margin: 0 auto;
+		}
+		.title span {
+			display: inline;
+			color: #c70101;
+    		font-weight: 600;
+    		font-size: 30px;
+		}
+		.tabs {
+			
+			width: 185px;
+		    height: 249px;
+		    background: #fff;
+		}
+		.tabs div {
+			height: 40px;
+		    padding: 0 14px;
+		    position: relative;
+		    border: 1px solid #e2e2e2;
+		    font-size: 14px;
+		    font-weight: 600;
+		    line-height: 40px;
+		    cursor: pointer;
+		}
+		.tabs div.active, .tabs div:hover {
+			border-color: #c70101;
+		    background: #c70101;
+		    color: #fff;
+		}
+		.tabs div::before {
+			content: '';
+		    display: inline-block;
+		    width: 3px;
+		    height: 3px;
+/* 		    margin-right: 3px; */
+		    background: #222;
+		    vertical-align: middle;
+		}
+		.tabs div.active::before, .tabs div:hover::before {
+			background: #fff;
+		}
+		.tabs div.active::after, .tabs div:hover::after {
+			position: absolute;
+			content: '';
+		    display: inline-block;
+		    width: 20px;
+		    height: 7px;
+		    top: 50%;
+		    right: 14px;
+		    background: url(https://www.fcseoul.com/resources/shop/_img/new/ico_go.png) center no-repeat;
+		    transform: translateY(-50%);
+		}
+		.tabcontainer {
+ 			width: 100%;
+			height: 249px;  
+		}
+		.tabcontainer div {
+		    width: 184px;
+		    height: 207px;
+		    padding: 10px 0 30px;
+		    margin-left: 17px;
+		}
+		.goods {
+			display: block;
+		    width: 184px;
+		    height: 249px;
+		    padding: 10px 0 30px;
+		    border: 1px solid #e2e2e2;
+		    background: #fff;
+		    text-align: center;
+		    cursor: pointer;
+		}
+		.goods img {
+			width: 160px;
+    		height: 160px;
+		}
+		.goodsname {
+			font-size: 12px;
+    		font-weight: 400;
+    		text-align: center;
+    		cursor: pointer;
+		}
+		.goodsprice {
+			color: #c70101;
+		    font-size: 15px;
+		    font-weight: 1000;
+		    text-align: center;
+		}
+		.goods span {
+		    display: block;
+			margin-top: 10px;
+		}
+		.newgoods {
+			width: 100%;
+    		padding: 50px 0;
+		}
+		.newgoodscontainer {
+			width: 1000px;
+    		margin: 0 auto;
+		}
+		.newgoodscontainer div {
+		    width: 184px;
+		    height: 207px;
+		    margin-left: 17px;
+		}
+		
+		.newgoodscontainer .ml0 {
+			margin-left: 0;
+		}
+		.newgoodscontainer .more {
+			display: block;
+		    width: 29px;
+		    height: 29px;
+		    top: 0;
+		    right: 0;
+		    border: 1px solid #666;
+		    background: url(https://www.fcseoul.com/resources/shop/_img/new/btn_more.png) center no-repeat;
+			cursor: pointer
+		}
+		.goods:hover {
+			border-color: #c70101;
+		}
+		.recommendgoods {
+			width: 100%;
+		    padding: 50px 0;
+		    background: #f7f7f7;
+		}
+		.recommendgoodscontainer {
+			width: 1000px;
+    		margin: 0 auto;
+		}
+		.recommendgoodscontainer div {
+		    width: 184px;
+		    height: 207px;
+		    margin-left: 17px;
+		}
+		.recommendgoodscontainer .ml0 {
+			margin-left: 0;
+		}
+		.botbanner {
+			border-bottom: 1px solid #e2e2e2;
+		}
+		.botbannercontent {
+			height: 273px;
+			width: 1000px;
+    		margin: 0 auto;
+		}
+		.botbannercontent div {
+		 	float: left;
+			width: 332px;
+		    height: 173px;
+		    padding: 50px 0;
+		    border-right: 1px solid #e2e2e2;
+		    text-align: center;
+		}
+		.botbannercontent div:first-child {
+			border-left: 1px solid #e2e2e2;
+		}
+		.botbannercontent div:first-child h4 {
+			background: url('https://www.fcseoul.com/resources/shop/_img/new/bul_cs01.png') 104px 50% no-repeat;
+		}
+		.botbannercontent div:nth-child(2) h4 {
+			background: url('https://www.fcseoul.com/resources/shop/_img/new/bul_cs02.png') 95px 50% no-repeat;
+		}
+		.botbannercontent div:last-child h4 {
+			background: url('https://www.fcseoul.com/resources/shop/_img/new/bul_cs03.png') 70px 50% no-repeat;
+		}
+		.botbannercontent div h4 {
+			margin: 0;
+			padding-left: 50px;
+		    font-size: 24px;
+		    font-weight: 600;
+		}
+		.botbannercontent div span {
+/* 			height: 18px; */
+			display: block;
+		    margin-top: 20px;
+		    font-size: 17px;
+		    font-weight: 1000;
+		}
+		.botbannercontent span.telnum {
+			height: 36px;
+			color: #c70101;
+		    font-family: 'ExoBold', 'Noto Sans KR';
+		    font-size: 36px;
+		    font-weight: 600;
+		}
+		.botbannercontent div p {
+			margin-top: 20px;
+		    color: #666;
+		    font-size: 14px;
+		    font-weight: 300;
+		    line-height: 1.4;
+		}
+		.botbannercontent div a {
+			font-size: 16px;
+			display: inline-block;
+		    width: 184px;
+		    height: 45px;
+		    margin-top: 20px;
+		    border-radius: 25px;
+		    line-height: 45px;
+		    color: #fff;
+		    cursor: pointer;
+		}
+		.botbannercontent div:nth-child(2) a {
+			background: #c70101;
+    		
+		}
+		.botbannercontent div:last-child a {
+			margin-top: 21px;
+    		background: #231f20;
+		}
+		.botbannercontent div:last-child span:first-of-type {
+			margin-top: 25px;
+    		font-size: 24px;
+    		color: #c70101;
+    		font-weight: 600;
+		}
+		.botbannercontent div:last-child span:last-of-type {
+			margin-top: 26px;
+		}
+		.sns {
+			padding: 50px 0;
+    		text-align: center;
+    		width: 1000px;
+   	 		margin: 0 auto;
+		}
+		.sns p {
+			margin-bottom: 40px;
+		    font-size: 28px;
+		    font-weight: 600;
+		}
+		.sns a {
+			display: inline-block;
+		    width: 80px;
+		    height: 80px;
+		    margin-right: 40px;
+		}
+		.sns a:first-of-type {
+			background: url(https://www.fcseoul.com/resources/shop/_img/new/btn_sns1.png) center no-repeat;
+    		background-size: cover;
+		}
+		.sns a:nth-of-type(2) {
+			background: url(https://www.fcseoul.com/resources/shop/_img/new/btn_sns2.png) center no-repeat;
+    		background-size: cover;
+		}
+		.sns a:last-of-type {
+			background: url(https://www.fcseoul.com/resources/shop/_img/new/btn_sns3.png) center no-repeat;
+    		background-size: cover;
+		}
+		.mainfooter {
+			width: 100%;
+    		background: #151515;
+		}
+		.mainfooter .botmenu {
+			padding: 23px 0;
+    		border-bottom: 1px solid #3b3b3b;
+    		width: 1000px;
+    		margin: 0 auto;
+		}
+  		.bmcontentbox:after { 
+  			content: "."; 
+ 		    visibility: hidden; 
+ 		    display: block; 
+ 		    height: 0; 
+ 		    clear: both; 
+  		} 
+		.bmcontentbox div a {
+			display: block;
+		    padding-left: 30px;
+		    color: #ccc;
+		    font-size: 14px;
+		    font-weight: 300;
+		}
+		.bmcontentbox div:first-child a {
+			padding-left: 0;
+		}
+		.bmcontentbox div:nth-child(2) a {
+			color: #e70000;
+		}
+		.footer {
+			width: 1000px;
+    		margin: 0 auto;
+			padding: 30px 0 50px;
+			position: relative;
+		}
+		.footer .fcontentbox {
+			overflow: hidden;
+		    width: 1000px;
+		    margin-top: 7px;
+		}
+		.footer:first-child {
+			margin-top 0;
+		}
+		.fcontentbox div {
+			float: left;
+		    padding: 0 7.5px;
+		    color: #ccc;
+		    font-size: 14px;
+		    font-weight: 300;
+		    line-height: 20px;
+		}
+		.fcontentbox div:after {
+			content: '';
+		    display: inline-block;
+		    width: 1px;
+		    height: 13px;
+		    margin-left: 15px;
+		    background: #3b3b3b;
+		    vertical-align: middle;
+		}
+		.fcontentbox div:first-child {
+			padding-left: 0;
+		}
+		.fcontentbox div address {
+			display: inline-block;
+		    color: #ccc;
+		    font-size: 14px;
+		    font-weight: 300;
+		    font-style: normal;
+		}
+		.footer p {
+			margin-top: 10px;
+			margin-bottom: 0;
+		    color: #ccc;
+		    font-size: 14px;
+		    font-weight: 300;
+		}
+		.footer:after {
+			content: '';
+		    display: block;
+		    width: 204px;
+		    height: 66px;
+		    position: absolute;
+		    top: 30px;
+		    right: 0;
+		    background: url(https://www.fcseoul.com/resources/shop/_img/new/img_logo_g.png) center no-repeat;
+		}
+		.menubar {
+			height: 1900px !important;
+			position: fixed;
+		    z-index: 99999;
+		    right: 0;
+		    top: 0;
+		    width: 115px;
+		    height: 100%;
+		    background-color: #312e2f;
+		}
+		.qmenu {
+			padding-bottom: 40px;
+    		text-align: center;
+		}
+		.qmenu span {
+			display: block;
+			height: 40px;
+		    background: #151515;
+		    color: #fff;
+		    font-size: 14px;
+		    font-weight: 800;
+		    line-height: 40px;
+		}
+		.qmenu .m1 a {
+			display: block;
+		    padding-top: 68px;
+			background: url(https://www.fcseoul.com/resources/shop/_img/new/quick_my.png) center 30px no-repeat;
+		}
+		.qmenu .m2 a {
+			display: block;
+		    padding-top: 68px;
+			background: url(https://www.fcseoul.com/resources/shop/_img/new/quick_bascket.png) center 30px no-repeat;
+		}
+		.qmenu .m3 a {
+			display: block;
+		    padding-top: 68px;
+			background: url(https://www.fcseoul.com/resources/shop/_img/new/quick_like.png	) center 30px no-repeat;
+		}
+		.qmenu div a span {
+			height: 14px;
+			background-color: #312e2f;
+			display: block;
+		    width: 100%;
+		    color: #fff;
+		    font-size: 14px;
+		    font-weight: 400;
+		    line-height: 1;
+		}
+		.recentmenu {
+			height: 380px;
+		    position: relative;
+		    background: #c7171f;
+		    color: #fff;
+		    text-align: center;
+		}
+		.recentmenu span {
+			display: block;
+			height: 42px;
+		    background: #bb0101;
+		    color: #fff;
+		    font-size: 14px;
+		    font-weight: 400;
+		    line-height: 42px;
+		}
+	</style>
+</head>
+<body>
+	<div id="uppermain">
+		<div class="mainlogo fl">
+			<img src="https://www.fcseoul.com/resources/shop/_img/renew/logo.png"/>
+		</div>
+		<div class="searchbox fl">
+			<input type="text" name="maintxt" id="maintxt" onfocus="clearTxt();" onkeydown="enterSearch();"/>
+			<button type="button" onclick="searchLeft();"></button>
+		</div>
+		<div class="topmenu fl">
+			<span>로그인</span>
+			<span>마이페이지</span>
+			<span>장바구니</span>
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+	<div id="categorybackground">
+		<div class="maincategory">
+			<div class="category fl">
+				<span>NEW</span>
+			</div>
+			<div class="category fl">
+				<span>유니폼</span>
+			</div>
+			<div class="category fl">
+				<span>트레이닝웨어</span>
+			</div>
+			<div class="category fl">
+				<span>패션</span>
+			</div>
+			<div class="category fl">
+				<span>응원용품</span>
+			</div>
+			<div class="category fl">
+				<span>기념품</span>
+			</div>
+			<div class="category fl">
+				<span>어린이</span>
+			</div>
+			<div class="category fl">
+				<span>SALE</span>
+			</div>
+			<div class="category fl view_all">
+				<span>전체메뉴</span>
+			</div>
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+	<div id="maincontent">
+		<div class="mainslider">
+		</div>
+		<div class="bestgoods">
+			<div class="goods_title">
+				<h3 class="title">지금 제일 <span>잘 나가는 상품</span></h3>
+				<div class="tabs fl">
+					<div class="active">
+						유니폼
+					</div>
+					<div class="">
+						트레이닝
+					</div>
+					<div class="">
+						패션
+					</div>
+					<div class="">
+						응원용품
+					</div>
+					<div class="">
+						기념품
+					</div>
+					<div class="">
+						어린이
+					</div>
+				</div>
+				<div class="tabcontainer">
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/2023424111888_S.jpg"/>
+						<span class="goodsname">이달의 선수 패치</span>
+						<span class="goodsprice">13,000원</span>
+					</div>
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202341979204_S.jpg"/>
+						<span class="goodsname">23 개인 마킹</span>
+						<span class="goodsprice">17,000원</span>
+					</div>
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202315423790_S.jpg"/>
+						<span class="goodsname">23 등번호+이름 (골드,필드용)</span>
+						<span class="goodsprice">17,000원</span>
+					</div>
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/2023127545997_S.jpg"/>
+						<span class="goodsname">23 신한플레이 (골드, 필드용)</span>
+						<span class="goodsprice">6,000원</span>
+					</div>
+					<div style="clear:both;"></div>
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+		</div>
+		<div class="newgoods">
+			<div class="newgoodscontainer">
+				<h3 class="title">
+					따끈따끈한 
+					<span>신상품</span>
+				<div class="more fr"></div>
+				</h3>
+				<div class="ml0 goods fl">
+					<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202318637557_S.jpg"/>
+					<span class="goodsname">23 홈 유니폼 성인 반팔</span>
+					<span class="goodsprice">99,000원</span>
+				</div>
+				<div class="goods fl">
+					<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202341979204_S.jpg"/>
+					<span class="goodsname">23 개인 마킹</span>
+					<span class="goodsprice">17,000원</span>
+				</div>
+				<div class="goods fl">
+					<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/20230111148106_S.jpg"/>
+					<span class="goodsname">23 연습복 긴팔 (블랙)</span>
+					<span class="goodsprice">59,000원</span>
+				</div>
+				<div class="goods fl">
+					<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202341878191_S.jpg"/>
+					<span class="goodsname">23 FC서울 응원 깃발</span>
+					<span class="goodsprice">6,000원</span>
+				</div>
+				<div class="goods fl">
+					<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202301151131_S.jpg"/>
+					<span class="goodsname">23 선수단 신발주머니</span>
+					<span class="goodsprice">77,000원</span>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="recommendgoods">
+			<div class="recommendgoodscontainer">
+				<h3 class="title">
+					FC서울이 엄선한 
+					<span>추천 상품</span>
+				</h3>
+				<div class="ml0 goods fl">
+					<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/2022814228917_S.jpg"/>
+					<span class="goodsname">22. FC서울 포토레인보우 (조영욱)</span>
+					<span class="goodsprice">10,000원</span>
+				</div>
+				<div class="goods fl">
+					<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/2022814230911_S.jpg"/>
+					<span class="goodsname"> 22. FC서울 포토레인보우 (나상호)</span>
+					<span class="goodsprice">10,000원</span>
+				</div>
+				<div class="goods fl">
+					<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/2022814231570_S.jpg"/>
+					<span class="goodsname"> 22. FC서울 포토레인보우 (오스마르)</span>
+					<span class="goodsprice">10,000원</span>
+				</div>
+				<div class="goods fl">
+					<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/2023330711645_S.jpg"/>
+					<span class="goodsname">23 FC서울 레디백</span>
+					<span class="goodsprice">28,000원</span>
+				</div>
+				<div class="goods fl">
+					<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202231454790_S.jpeg"/>
+					<span class="goodsname">22 선수단 신발주머니</span>
+					<span class="goodsprice">77,000원</span>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="botbanner">
+		<div class="botbannercontent">
+			<div>
+				<h4>고객센터</h4>
+				<span class="telnum">070-4101-7710</span>
+				<span>월요일~금요일 : 11:00~18:00</span>
+				<p>
+					FC서울 홈 경기일과 공휴일 및 주말은 <br/>
+					고객센터를 운영하지 않습니다. <br/>
+					양해 부탁드립니다.
+				</p>
+			</div>
+			<div>
+				<h4>배송문의</h4>
+				<span class="telnum">1588-1255</span>
+				<span>CJ 대한통운</span>
+				<a href="https://www.cjlogistics.com/ko/tool/parcel/tracking#none" target="_blank">온라인 조회하기</a>
+			</div>
+			<div>
+				<h4>FC서울 팬파크</h4>
+				<span>FC서울 상설 용품샵 오픈!</span>
+				<span>월드컵경기장역 2번출구</span>
+				<a href="#this" onclick="alert('준비중 입니다.');" return false;>자세히 보기</a>
+			</div>
+		</div>
+	</div>
+	<div class="sns">
+		<p>FC SEOUL의 더 많은 소식을 SNS를 통해 만나보세요.</p>
+		<a href="https://www.facebook.com/fcseoul" target="_blank"></a>
+		<a href="https://www.instagram.com/fcseoul/" target="_blank"></a>
+		<a href="https://www.youtube.com/user/FCSEOUL" target="_blank"></a>
+	</div>
+	<div class="mainfooter">
+		<div class="botmenu">
+			<div class="bmcontentbox">
+				<div class="fl">
+					<a href="https://www.fcseoul.com/" target="_blank">FC서울 홈페이지</a>
+				</div>
+				<div class="fl">
+					<a href="https://www.fcseoul.com/fcshop/privacy" target="_blank">개인정보처리방침</a>
+				</div>
+				<div class="fl">
+					<a href="https://www.fcseoul.com/fcshop/terms" target="_blank">이용약관</a>
+				</div>
+				<div class="fl">
+					<a href="https://www.fcseoul.com/fcshop/faqList" target="_blank">고객센터</a>
+				</div>
+				
+			</div>
+		</div>
+		<div class="footer">
+			<div class="fcontentbox">
+				<div>
+			 		법인명(상호): 케이프온 주식회사
+				</div>
+				<div>
+					대표자 : 민세중
+				</div>
+				<div>
+					사업자등록번호: 644-81-00100
+				</div>
+			</div>
+			<div class="fcontentbox">
+				<div>
+			 		FAX: 031-722-2056
+				</div>
+				<div>
+					통신판매신고번호 : 제2020-성남중원-1061호
+				</div>
+			</div>
+			<div class="fcontentbox">
+				<div>
+			 		<address>
+							경기도 성남시 중원구 양현로 405번길 4-11
+						</address>
+				</div>
+			</div>
+			<div class="fcontentbox">
+				<div>
+			 		개인정보보호책임자 : 이재근
+				</div>
+				<div>
+					이메일 : fcseoul@gssports.co.kr
+				</div>
+			</div>
+			<p>
+				Copyright ⓒ 2020 GS Sports Football Club Seoul
+			</p>
+		</div>
+	</div>
+	<div class="menubar">
+		<div class="qmenu">
+			<span>QUICK MENU</span>
+			<div class="m1">
+				<a href="https://www.fcseoul.com/fcshop/mypage">
+					<span>마이페이지</span>
+				</a>
+			</div>
+			<div class="m2">
+				<a href="https://www.fcseoul.com/fcshop/mypage">
+					<span>장바구니</span>
+				</a>
+			</div>
+			<div class="m3">
+				<a href="https://www.fcseoul.com/fcshop/mypage">
+					<span>찜한상품</span>
+				</a>
+			</div>
+		</div>
+		<div class="recentmenu">
+			<span>최근 본 상품</span>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
+</body>
+</html>

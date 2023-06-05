@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<fieldset style="width:250">
+		<legend>개인정보 입력</legend>
+			지역선택(size, multiple속성 추가)<br/>
+			<select name="city2" multiple>
+				<option value="sungnam-si">성남시<option>
+				<option value="suwon-si">수원시<option>
+				<option value="yongin-si">용인시<option>
+				<option value="anyang-si">안양시<option>
+				<option value="gwacheon-si">과천시<option>
+			</select>
+			<br/><br/>
+			지역선택 (optgroup 태그 포함)<br/>
+			<select>
+				<optgroup label="서울">
+					<option value="songpa-gu">송파구</option>
+					<option value="gangnam-gu">강남구</option>
+					<option value="seocho-gu">서초구</option>
+					<option value="jung-gu">중구</option>
+				</optgroup>
+				<optgroup label="경기도">
+					<option value="sungnam-si">성남시</option>
+					<option value="suwon-si">수원시</option>
+					<option value="yongin-si">용인시</option>
+					<option value="anyang-si">안양시</option>
+				</optgroup>
+			</select>
+	</fieldset>
+</body>
+</html>

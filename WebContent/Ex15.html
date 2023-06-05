@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>var 3 : function scope</title>
+</head>
+<body>
+	<script>
+		function run() {
+// 			for(var i=1; i<=3; i++) {}  // 변수가 for문 안에서 살아있다 : "block scope"
+			for(let i=1; i<=3; i++) {}
+			alert("i : " + i);  // 변수가 함수 안에서 살아있다 : "function scope"
+		}
+		run();
+	</script>
+</body>
+</html>
