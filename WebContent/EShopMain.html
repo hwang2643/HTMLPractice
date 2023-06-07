@@ -3,6 +3,93 @@
 <head>
 	<meta charset="UTF-8">
 	<title>FC서울 공식 쇼핑몰 project</title>
+	<script>
+		function openBtn() {
+			let btn1 = document.getElementById("btn1");
+			let btn2 = document.getElementById("btn2");
+			let dark = document.getElementById("bg_dark");
+			if(btn1.style.display == "none") {
+				btn1.style.display = "block";
+				btn2.className = "category fl view_all on"
+				dark.style.display = "block";
+			}
+		}
+		function closeBtn() {
+			let btn1 = document.getElementById("btn1");
+			let btn2 = document.getElementById("btn2");
+			let dark = document.getElementById("bg_dark");
+			if(btn1.style.display == "block") {
+				btn1.style.display = "none";
+				btn2.className = "category fl view_all"
+				dark.style.display = "none";
+			}
+		}
+		function tabChange(a) {
+			let act1 = document.getElementById("act1");
+			let act2 = document.getElementById("act2");
+			let act3 = document.getElementById("act3");
+			let act4 = document.getElementById("act4");
+			let act5 = document.getElementById("act5");
+			let act6 = document.getElementById("act6");
+			let tab1 = document.getElementById("tab1");
+			let tab2 = document.getElementById("tab2");
+			act1.className = "";
+			act2.className = "";
+			act3.className = "";
+			act4.className = "";
+			act5.className = "";
+			act6.className = "";
+			if(act1==a) {
+				act1.className = "active";
+				tab1.style.display = "block";
+				tab2.style.display = "none";
+				tab3.style.display = "none";
+				tab4.style.display = "none";
+				tab5.style.display = "none";
+				tab6.style.display = "none";
+			} else if(act2==a) {
+				act2.className = "active";
+				tab1.style.display = "none";
+				tab2.style.display = "block";
+				tab3.style.display = "none";
+				tab4.style.display = "none";
+				tab5.style.display = "none";
+				tab6.style.display = "none";
+			} else if(act3==a) {
+				act3.className = "active";
+				tab1.style.display = "none";
+				tab2.style.display = "none";
+				tab3.style.display = "block";
+				tab4.style.display = "none";
+				tab5.style.display = "none";
+				tab6.style.display = "none";
+			} else if(act4==a) {
+				act4.className = "active";
+				tab1.style.display = "none";
+				tab2.style.display = "none";
+				tab3.style.display = "none";
+				tab4.style.display = "block";
+				tab5.style.display = "none";
+				tab6.style.display = "none";
+			} else if(act5==a) {
+				act5.className = "active";
+				tab1.style.display = "none";
+				tab2.style.display = "none";
+				tab3.style.display = "none";
+				tab4.style.display = "none";
+				tab5.style.display = "block";
+				tab6.style.display = "none";
+			}else if(act6==a) {
+				act6.className = "active";
+				tab1.style.display = "none";
+				tab2.style.display = "none";
+				tab3.style.display = "none";
+				tab4.style.display = "none";
+				tab5.style.display = "none";
+				tab6.style.display = "block";
+			}
+		}
+	</script>
 	<style>
 		@font-face {
 			font-family: 'ExoBold';
@@ -19,6 +106,16 @@
 		    background: #c70101;
 		}
 		#maincontent { }
+		.bg_dark {
+			display: none;
+		    width: 100vw;
+		    height: 100vw;
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    background: rgba(0,0,0,0.5);
+		    z-index: 999;
+		}
 		.fl { float: left; }
 		.fr { float: right; }
 		.fc { float: center; }
@@ -95,11 +192,22 @@
 		    line-height: 52px;
 		}
 		.category span:hover { cursor: pointer; }
-		.view_all {
-			margin-left: 20.5px;
+		.view_all button {
+			padding: 0 20px;
+			width: auto;
+		    height: 52px;
+			color: #fff;
+		    font-size: 15px;
+		    font-weight: 600;
+		    letter-spacing: -0.5px;
+		    line-height: 52px;
     		background: #ad0000;
+    		border: none;
 		}
-		.view_all::after {
+		.view_all.on button::after {
+ 		    background: url(https://www.fcseoul.com/resources/shop/_img/new/btn_all_on.png) center no-repeat;
+		}
+		.view_all button::after {
 			content: '';
 		    display: inline-block;
 		    width: 7px;
@@ -108,9 +216,7 @@
 		    background: url(https://www.fcseoul.com/resources/shop/_img/new/btn_all.png) center no-repeat;
 		    vertical-align: middle;
 		}
-		.view_all.on::after {
-			background: url(https://www.fcseoul.com/resources/shop/_img/new/btn_all_on.png) center no-repeat;
-		}
+		
 		.mainslider:hover { cursor: pointer; }
 		.mainslider {
 			width: 100%;
@@ -148,8 +254,11 @@
 		    height: 249px;
 		    background: #fff;
 		}
-		.tabs div {
-			height: 40px;
+		.tabs div button{
+			text-align: left;
+			background-color: #fff;
+			width: 100%;
+			height: 42px;
 		    padding: 0 14px;
 		    position: relative;
 		    border: 1px solid #e2e2e2;
@@ -158,24 +267,24 @@
 		    line-height: 40px;
 		    cursor: pointer;
 		}
-		.tabs div.active, .tabs div:hover {
+		.tabs div.active button, .tabs div button:hover {
 			border-color: #c70101;
 		    background: #c70101;
 		    color: #fff;
 		}
-		.tabs div::before {
+		.tabs div button::before {
 			content: '';
 		    display: inline-block;
 		    width: 3px;
 		    height: 3px;
-/* 		    margin-right: 3px; */
+ 		    margin-right: 3px;
 		    background: #222;
 		    vertical-align: middle;
 		}
-		.tabs div.active::before, .tabs div:hover::before {
+		.tabs div.active button::before, .tabs div button:hover::before {
 			background: #fff;
 		}
-		.tabs div.active::after, .tabs div:hover::after {
+		.tabs div.active button::after, .tabs div button:hover::after {
 			position: absolute;
 			content: '';
 		    display: inline-block;
@@ -537,9 +646,132 @@
 		    font-weight: 400;
 		    line-height: 42px;
 		}
+		.all_menu {
+		    width: 100%;
+		    position: absolute;
+		    top: 163px;
+		    left: 0;
+		    background: #fff;
+		    z-index: 9999;
+		}
+		.all_menu_box {
+			position: relative;
+/*  		    display: block; */
+		    padding: 23px 0 30px;
+		    width: 1000px;
+    		margin: 0 auto;
+		}
+		.all_category_box {
+		    width: 300px;
+		    height: 410px;
+		    margin-right: 30px;
+		}
+		.all_mypage_box {
+		    width: 300px;
+		    height: 410px;
+		    margin-right: 30px;
+		}
+		.all_service_box {
+			width: 300px;
+		    height: 410px;
+		    margin-right: 30px;
+		}
+		.cate_box_title {
+			padding-left: 50px;
+		    color: #c70101;
+		    font-size: 16px;
+		    font-weight: 800;
+		    line-height: 1.5;
+		    background: url(https://www.fcseoul.com/resources/shop/_img/new/all_bul01.png) 18px center no-repeat;
+		}
+		.mypage_box_title {
+			padding-left: 50px;
+		    color: #c70101;
+		    font-size: 16px;
+		    font-weight: 800;
+		    line-height: 1.5;
+		    background: url(https://www.fcseoul.com/resources/shop/_img/new/all_bul02.png) 18px center no-repeat;
+		}
+		.service_box_title {
+			padding-left: 50px;
+		    color: #c70101;
+		    font-size: 16px;
+		    font-weight: 800;
+		    line-height: 1.5;
+		    background: url(https://www.fcseoul.com/resources/shop/_img/new/all_bul02.png) 18px center no-repeat;
+		}
+		.all_category_box div:nth-child(2) {
+		    margin-top: 18px;
+    		border-top: 1px solid #c70101;
+		}
+		.all_mypage_box div:nth-child(2) {
+		    margin-top: 18px;
+    		border-top: 1px solid #c70101;
+		}
+		.all_service_box div:nth-child(2) {
+		    margin-top: 18px;
+    		border-top: 1px solid #c70101;
+		}
+		.all_content_box a{
+		    display: block;
+		    width: 100%;
+		    height: 40px;
+		    padding-left: 15px;
+		    position: relative;
+		    border-bottom: 1px solid #e2e2e2;
+		    color: #222;
+		    font-size: 14px;
+		    font-weight: 800;
+		    line-height: 40px;
+		    box-sizing: border-box;
+		    cursor: pointer;
+		    position: relative;
+		}
+		.all_content_box a:before {
+			content: '';
+		    display: inline-block;
+		    width: 3px;
+		    height: 3px;
+		    margin-right: 1px;
+		    border-radius: 100%;
+		    background: #222;
+		    vertical-align: middle;
+		}
+		.all_content_box a:hover {
+			border-color: #c70101;
+		    background: #c70101;
+		    color: #fff;
+		}
+		.all_content_box a:hover::before {
+			background: #fff;
+		}
+		.all_content_box a:hover::after {
+			position: absolute;
+			content: '';
+		    display: inline-block;
+		    width: 20px;
+		    height: 7px;
+		    top: 50%;
+		    right: 14px;
+		    background: url(https://www.fcseoul.com/resources/shop/_img/new/ico_go.png) center no-repeat;
+		    transform: translateY(-50%);
+		}
+		.close_button {
+			position: absolute;
+		    right: 0;
+		    bottom: 30px;
+		}
+		.close_button input {
+			width: 55px;
+		    height: 55px;
+		    border: 1px solid #b2b2b2;
+		    background: url(https://www.fcseoul.com/resources/shop/_img/new/all_close.png) center no-repeat;
+		    text-indent: -9999px;
+		}
 	</style>
 </head>
 <body>
+
 	<div id="uppermain">
 		<div class="mainlogo fl">
 			<img src="https://www.fcseoul.com/resources/shop/_img/renew/logo.png"/>
@@ -581,11 +813,123 @@
 			<div class="category fl">
 				<span>SALE</span>
 			</div>
-			<div class="category fl view_all">
-				<span>전체메뉴</span>
+			<div id="btn2" class="category fl view_all">
+				<button type="button" onclick="openBtn()">전체메뉴</button>
 			</div>
 		</div>
 		<div style="clear:both;"></div>
+	</div>
+	<div class="all_menu">
+		<div id="btn1" class="all_menu_box" style="display: none;">
+			<div class="all_content_box">
+				<div class="all_category_box fl">
+					<div class="cate_box_title">
+						<span>카테고리</span>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=NEW&list_type=M">
+							NEW
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=UNI&list_type=M">
+							유니폼
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=TRA&list_type=M">
+							트레이닝 웨어
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=TSH&list_type=M">
+							패션
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=SCA&list_type=M">
+							응원용품
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=FAN&list_type=M">
+							기념품
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=ACC&list_type=M">
+							어린이
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=SALE&list_type=M">
+							SALE
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=ALL&list_type=M">
+							전체상품보기
+						</a>
+					</div>
+				</div>
+				<div class="all_mypage_box fl">
+					<div class="mypage_box_title">
+						<span>마이페이지</span>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/orderList">
+							나의주문이력
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/cart">
+							장바구니
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/wishList">
+							찜한상품
+						</a>
+					</div>
+				</div>
+				<div class="all_service_box fl">
+					<div class="service_box_title">
+						<span>고객센터</span>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/faqList">
+							FAQ
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/qnaList">
+							Q&A
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/notice">
+							공지사항
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/terms">
+							이용약관
+						</a>
+					</div>
+					<div>
+						<a href="https://www.fcseoul.com/fcshop/privacy">
+							개인정보
+						</a>
+					</div>
+					<div style="clear:both;"></div>
+				</div>
+				<div class="close_button">
+					<input type="button" onclick="closeBtn()"/>
+					
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+		</div>
 	</div>
 	<div id="maincontent">
 		<div class="mainslider">
@@ -594,26 +938,26 @@
 			<div class="goods_title">
 				<h3 class="title">지금 제일 <span>잘 나가는 상품</span></h3>
 				<div class="tabs fl">
-					<div class="active">
-						유니폼
+					<div id="act1" class="active">
+						<button type="button" onclick="tabChange(act1)">유니폼</button>
 					</div>
-					<div class="">
-						트레이닝
+					<div id="act2" class="">
+						<button type="button" onclick="tabChange(act2)">트레이닝</button>
 					</div>
-					<div class="">
-						패션
+					<div id="act3" class="">
+						<button type="button" onclick="tabChange(act3)">패션</button>
 					</div>
-					<div class="">
-						응원용품
+					<div id="act4" class="">
+						<button type="button" onclick="tabChange(act4)">응원용품</button>
 					</div>
-					<div class="">
-						기념품
+					<div id="act5" class="">
+						<button type="button" onclick="tabChange(act5)">기념품</button>
 					</div>
-					<div class="">
-						어린이
+					<div id="act6" class="">
+						<button type="button" onclick="tabChange(act6)">어린이</button>
 					</div>
 				</div>
-				<div class="tabcontainer">
+				<div id="tab1" class="tabcontainer" style="display: block;">
 					<div class="goods fl">
 						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/2023424111888_S.jpg"/>
 						<span class="goodsname">이달의 선수 패치</span>
@@ -635,6 +979,76 @@
 						<span class="goodsprice">6,000원</span>
 					</div>
 					<div style="clear:both;"></div>
+				</div>
+				<div id="tab2" class="tabcontainer" style="display: none;">
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/2022322146826_S.jpg"/>
+						<span class="goodsname">22 트레이닝 상의 블랙</span>
+						<span class="goodsprice">99,000원</span>
+					</div>
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202292902999_S.jpeg"/>
+						<span class="goodsname">23 선수단 롱다운</span>
+						<span class="goodsprice">343,200원</span>
+					</div>
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/20221025219271_S.jpeg"/>
+						<span class="goodsname">23. FC서울 패딩조끼</span>
+						<span class="goodsprice">119,000원</span>
+					</div>
+					<div style="clear:both;"></div>
+				</div>
+				<div id="tab3" class="tabcontainer" style="display: none;">
+					
+				</div>
+				<div id="tab4" class="tabcontainer" style="display: none;">
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/2022627146527_S.jpg"/>
+						<span class="goodsname">22 기성용 캡틴 머플러(극세사)</span>
+						<span class="goodsprice">13,000원</span>
+					</div>
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202327548205_S.jpg"/>
+						<span class="goodsname">23 40주년 기념 머플러</span>
+						<span class="goodsprice">23,000원</span>
+					</div>
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/2022814549652_S.jpg"/>
+						<span class="goodsname"> 22. FC서울 WHITE 니트머플러</span>
+						<span class="goodsprice">23,000원</span>
+					</div>
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/2022814548769_S.jpg"/>
+						<span class="goodsname"> 22. FC서울 Soul of Seoul 니트머플러</span>
+						<span class="goodsprice">23,000원</span>
+					</div>
+					<div style="clear:both;"></div>
+				</div>
+				<div id="tab5" class="tabcontainer" style="display: none;">
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202329449859_S.jpg"/>
+						<span class="goodsname">엠블럼 뱃지</span>
+						<span class="goodsprice">5,000원</span>
+					</div>
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202334533825_S.jpeg"/>
+						<span class="goodsname">22 FC서울 골프공(2피스)</span>
+						<span class="goodsprice">17,500원</span>
+					</div>
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/20233453074_S.jpeg"/>
+						<span class="goodsname"> 22 FC서울 골프공(3피스)</span>
+						<span class="goodsprice">24,500원</span>
+					</div>
+					<div class="goods fl">
+						<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202282049176_S.jpg"/>
+						<span class="goodsname"> 22. FC서울 포토레인보우 (기성용)</span>
+						<span class="goodsprice">10,000원</span>
+					</div>
+					<div style="clear:both;"></div>
+				</div>
+				<div id="tab6" class="tabcontainer" style="display: none;">
+					
 				</div>
 				<div style="clear:both;"></div>
 			</div>
@@ -823,5 +1237,6 @@
 		</div>
 	</div>
 	<div style="clear:both;"></div>
+<div id="bg_dark" class="bg_dark" style="display: none;"></div>
 </body>
 </html>
