@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+	<script>
+		$(function() {
+			$("#pBtn").click(function() {
+				$("#cnt").val(Number($("#cnt").val()) + 1);
+			});
+			$("#mBtn").click(function() {
+				if($("#cnt").val()>0){
+					$("#cnt").val(Number($("#cnt").val()) - 1);
+				}
+			});
+		});
+	</script>
+	<style>
+		.cnt_box input {
+			border-top: none;
+			border-left: none;
+			border-right: none;
+			border-bottom: 1px solid #000;
+			text-align: center;
+		}
+		input {
+			border: none;
+			background-color: white;
+		}
+	</style>
+</head>
+<body>
+	<div class="cnt_box">
+		카운트 : <input type="text" id="cnt"/> <br/>
+	</div>
+	<input type="button" id="pBtn" value="[ + ]"/>
+	<input type="button" id="mBtn" value="[ - ]"/>
+</body>
+</html>
