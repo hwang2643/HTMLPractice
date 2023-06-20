@@ -8,9 +8,31 @@
 	font-family: 'ExoBold';
 	src: url('./font/Exo-Bold.woff') format('woff');
 }
+img {
+	vertical-align: top;
+}
 a { text-decoration: none; color: black; }
 body { line-height: 1; font: 12px/1.2 'Noto Sans KR', sans-serif;}
 div.border { border: 1px solid red;}
+table {
+	border-collapse: collapse;
+    border-spacing: 0;
+}
+tr {
+	display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+th, td {
+	text-align: center;
+    vertical-align: middle;
+    font: 12px/1.2 "돋움", Dotum, Tahoma, "맑은고딕", Malgun Gothic, sans-serif;
+}
+tbody {
+	display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
 #uppermain { width:1000px; margin: 0 auto; margin-top:20px; }
 #categorybackground { 
 	width: 100%;
@@ -61,6 +83,27 @@ input {
     border-left: 1px solid #c4c4c4;
     border-right: 1px solid #e9e9e9;
     border-bottom: 1px solid #e9e9e9;
+}
+select {
+	height: 22px;
+    vertical-align: middle;
+    color: #666666;
+    font-family: 굴림, Gulim, 맑은고딕, Malgun Gothic, tahoma, 돋움,dotum;
+    font-size: 12px;
+    padding-top: 3px;
+    border-top: 1px solid #c4c4c4;
+    border-left: 1px solid #c4c4c4;
+    border-right: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e9e9e9;
+    background-color: #fff;
+}
+option {
+	font-weight: normal;
+    display: block;
+    white-space-collapse: collapse;
+    text-wrap: nowrap;
+    min-height: 1.2em;
+    padding: 0px 2px 1px;
 }
 .searchbox button {
     position: absolute;
@@ -322,185 +365,177 @@ input {
     font-weight: 400;
     line-height: 42px;
 }
-.mypage_container {
-    position: relative;
-    width: 100%;
+.main_container {
+	width: 100%;
 }
-.mypage_content_wrap {
-	width: 930px !important;
-	width: 1042px;
+.main_container a:hover {
+	text-decoration: underline;
+}
+.content_wrap {
     position: relative;
     top: 0;
     margin: 0 auto 98px auto;
     min-height: 687px;
     height: auto !important;
-    height: 687px;
+    height: 687px;	
+	width: 930px !important;
 }
-.mypage_content_box {
-    width: 1042px;
+.main_content {
+	width: 930px;
     margin-top: 25px;
     left: 0;
     float: left;
 }
-.mypage_content_box .left_banner {
-	width: 243px;
-    top: 0;
-    left: 0;
-    float: left;
-    margin-right: 32px;
-}
-.mypage_content_box .left_banner .left_banner_title {
-	padding-bottom: 15px;
-}
-.left_banner_title img {
-	vertical-align: top;
-}
-.left_banner_list {
-    width: 198px;
-    left: 0;
-    top: 0;
-    margin-right: 32px;
-    border-top: 2px solid #c7a75a;
-}
-.tab {
-    border-bottom: 1px solid #e5dac1;
-}
-.tab a:hover {
-	color: #bfab65;
-}
-.tab img{
-	vertical-align: top;
-}
-.left_banner_list div:last-child{
-	padding: 8px 10px;
-    font-size: 13px;
-    font-weight: bold;
-}
-.tab span {
-	color: #999;
-}
-.wish_content {
-	width: 700px;
-    left: 271px;
-    float: left;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-tbody {
-	display: table-row-group;
-    vertical-align: middle;
-    border-color: inherit;
-}
-tr {
-	display: table-row;
-    vertical-align: inherit;
-    border-color: inherit;
-}
-th, td {
-    text-align: center;
-    vertical-align: middle;
-    font: 12px/1.2 "돋움", Dotum, Tahoma, "맑은고딕", Malgun Gothic, sans-serif;
-}
-.sub_t1 {
-	color: #aaaaaa;
+.mini_title {
+    color: #aaaaaa;
     font: 11px tahoma, verdana, 돋움, dotum;
     text-align: right;
     padding-right: 20px;
 }
-.sub_t2 {
+.mini_title span {
 	color: #5b5b5b;
     font: 11px tahoma, verdana, 돋움, dotum;
     font-weight: bold;
-    text-align: right;
 }
-.wishpage_title {
-    text-align: left;
+.title {
+	text-align: left;
     padding-left: 10px;
     padding-bottom: 10px;
 }
-.wishpage_t1 {
+.title span {
 	font-size: 28px;
     font-weight: bold;
     color: #353535;
     font-family: "讣篮绊雕", Malgun Gothic, sans-serif;
 }
-
-.wishpage_title img {
+.title img {
 	vertical-align: middle;
-}
-.wishpage_title img:last-child {
     padding-left: 15px;
 }
-.br10 {
-	padding: 10px 0 0 0;
-    clear: both;
-}
-.br15 {
-	padding: 15px 0 0 0;
-    clear: both;
-}
-.br20 {
-	padding: 20px 0 0 0;
-    clear: both;
-}
-.content_title_box2{
-	table-layout: fixed;
-    border-collapse: collapse;
-    border-top: 2px solid #ABABAB;
-    border-bottom: 1px solid #ABABAB;
-}
-.content_title_box2 th {
-	font-size: 12px;
-    font-weight: normal;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    background: url(https://www.fcseoul.com/resources/shop/_img/customer/notice_bar.gif) no-repeat center right;
-    border-top: 1px solid #BDBDBD;
-    border-bottom: 1px solid #BDBDBD;
-}
-.content_title_box2 th:first-child {
-	border-left: 1px solid #BDBDBD;
-}
-.content_title_box2 th:last-child {
-	background: none;
-	border-right: 1px solid #BDBDBD;
-}
-.content_title_box2 td {
-	padding-top: 6px;
-    padding-bottom: 6px;
-    border-top: 1px solid #DBDBDB;
-    border-bottom: 1px solid #DBDBDB;
-    text-align: center;
-}
-check_box {
-	border: 1px solid #ededed;
-}
-.page_box_wrap {
-	margin-top: 25px;
-}
-.page_box_wrap .page_box {
-    font: 11px tahoma, dotum, verdana;
-    color: #606060;
-    font-weight: bold;
+.prd_img_wrap div {
     text-align: center;
     vertical-align: middle;
+    font: 12px/1.2 "돋움", Dotum, Tahoma, "맑은고딕", Malgun Gothic, sans-serif;
 }
-.page_box_wrap .page_box a {
+.prd_img_wrap {
+	width: 387px;
+	height: 323px;
+    padding-right: 43px;
+}
+.prd_img {
+	margin-top: 62px;
+	height: 160px;
+    overflow: hidden;
+}
+.prd_img img {
+	border: none;
+    padding: none;
+    vertical-align: middle;
+    padding-bottom: 2px;
+}
+.detail_btn img {
+	padding: 8px;
+    vertical-align: middle;
+}
+.prd_info_box {
+	width: 500px;
+    margin: 0;
+}
+.prd_info_tit {
+    font: 15px 돋움,dotum,맑은고딕, Malgun Gothic;
+    color: #000;
+    font-weight: bold;
+    letter-spacing: -1px;
+    text-align: left;
+    border-bottom: 3px solid #5a5a5a;
+    padding: 7px 2px;
+    vertical-align: middle;
+}
+.prd_info_r1 {
+	height: 28px;
+    border-bottom: 1px solid #e2e2e2;
+    background-color: #f7f7f7;
+}
+.prd_info_r2 {
+	height: 28px;
+    border-bottom: 1px solid #e2e2e2;
+}
+.prd_info_c1 {
+	width: 110px;
+    color: #7d7d7d;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 12px;
+    background: url(https://www.fcseoul.com/resources/shop/_img/product/prd_hline.gif) no-repeat;
+    background-position: right;
+}
+.prd_info_c2 {
+	color: #7e7e7e;
+    text-align: left;
+    padding-left: 12px;
+}
+.prd_info_c2.price {
+	color: #d12428;
+    font-weight: bold;
+}
+.prd_info_c2.point {
+	color: #ac9643;
+    font-weight: bold;
+}
+.color_sel {
+	display: inline-block;
+    zoom: 1;
+    padding: 1px;
+    border: 1px solid #000;
+}
+.prd_red {
+	display: inline-block;
+    width: 15px;
+    height: 15px;
+    text-indent: -9999px;
+    background: #e70012;
+}
+.size_sel {
+    width: 150px;
+	height: 22px;
+    font: 12px 굴림,Gulim,돋움,dotum,맑은고딕, Malgun Gothic, tahoma;
+    color: #7e7e7e;
+    letter-spacing: -1px;
+    border-top: 1px solid #c4c4c4;
+    border-left: 1px solid #c4c4c4;
+    border-right: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e9e9e9;
+}
+.prd_btn_box {
+	margin-top: 25px;
+}
+.prd_btn {
+	padding-right: 3px;
+    text-align: left;
+}
+
+.page_box {
+	margin-top: 25px;
+}
+.page_btn {
 	font: 11px tahoma, dotum, verdana;
     color: #606060;
     font-weight: bold;
+    text-align: center;
     vertical-align: middle;
 }
-.page_box_wrap .page_box img {
-	vertical-align: middle;
+.page_btn img{
+    vertical-align: middle;
     padding: 2px;
 }
-.page_box_wrap .page_box a.pg {
-	background: url(https://www.fcseoul.com/resources/shop/_img/board/pg_hline.gif) no-repeat;
-    background-position: 0 35%;
+.pg {
+	font: 11px tahoma, dotum, verdana;
+    color: #606060;
+    font-weight: bold;
     padding: 0 10px;
+    vertical-align: middle;
+    background: url(https://www.fcseoul.com/resources/shop/_img/board/pg_hline.gif) no-repeat;
+    background-position: 0 35%
 }
 .footer_wrap {
 	clear: both;
