@@ -527,18 +527,22 @@ div.date_search div.between {
     border-bottom: 1px solid #ABABAB;
 }
 .content_title_box2 th {
+    background: #F8F8F8;
 	font-size: 12px;
     font-weight: normal;
     padding-top: 8px;
     padding-bottom: 8px;
-    background: url(https://www.fcseoul.com/resources/shop/_img/customer/notice_bar.gif) no-repeat center right;
     border-top: 1px solid #BDBDBD;
+    border-left: 1px solid #DBDBDB;
+    border-right: 1px solid #DBDBDB;
     border-bottom: 1px solid #BDBDBD;
 }
 .content_title_box2 td {
 	padding-top: 6px;
     padding-bottom: 6px;
     border-top: 1px solid #DBDBDB;
+    border-left: 1px solid #DBDBDB;
+    border-right: 1px solid #DBDBDB;
     border-bottom: 1px solid #DBDBDB;
     text-align: center;
 }
@@ -546,9 +550,19 @@ div.date_search div.between {
 	border-left: 1px solid #BDBDBD;
 }
 .content_title_box2 th:last-child {
-	background: none;
 	border-right: 1px solid #BDBDBD;
 }
+.content_title_box2 td.date {
+	    font-weight: normal;
+    color: #969696;
+    border-left: 0px;
+    font-size: 11px;
+    font-family: tahoma, verdana, dotum;
+}
+.content_title_box2 td.pay_step {
+	color: #AE9644;
+}
+
 .page_box_wrap {
 	margin-top: 25px;
 }

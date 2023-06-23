@@ -14,7 +14,7 @@ div.border { border: 1px solid red;}
 #uppermain { width:1000px; margin: 0 auto; margin-top:20px; }
 #categorybackground { 
 	width: 100%;
-  		height: 52px;
+	height: 52px;
     margin-top: 22px;
     background: #c70101;
 }
@@ -379,7 +379,7 @@ input {
 .tab span {
 	color: #999;
 }
-.wish_content {
+.cart_content {
 	width: 700px;
     left: 271px;
     float: left;
@@ -415,23 +415,24 @@ th, td {
     font-weight: bold;
     text-align: right;
 }
-.wishpage_title {
+.cartpage_title {
     text-align: left;
     padding-left: 10px;
     padding-bottom: 10px;
 }
-.wishpage_t1 {
+.cartpage_t1 {
 	font-size: 28px;
     font-weight: bold;
     color: #353535;
     font-family: "讣篮绊雕", Malgun Gothic, sans-serif;
 }
 
-.wishpage_title img {
+.cartpage_title img {
 	vertical-align: middle;
-}
-.wishpage_title img:last-child {
     padding-left: 15px;
+}
+.cartpage_title img:first-child {
+	padding-left: 0;
 }
 .br10 {
 	padding: 10px 0 0 0;
@@ -443,6 +444,10 @@ th, td {
 }
 .br20 {
 	padding: 20px 0 0 0;
+    clear: both;
+}
+.br30 {
+	padding: 30px 0 0 0;
     clear: both;
 }
 .content_title_box2{
@@ -476,33 +481,152 @@ th, td {
 }
 .content_title_box2 img {
 	width: 45px;
-    aspect-ratio: auto 45 / 39;
-    height: 39px;
-}
-.content_title_box2 img:hover {
-	border: 1px solid gray !important;
-}
-.content_title_box2 td.prd_name {
-	text-align: left;
-    padding-left: 10px;
-}
-.content_title_box2 td.date {
-	font-weight: normal;
-    color: #969696;
-    border-left: 0px;
-    font-size: 11px;
-    font-family: tahoma, verdana, dotum;
+	height: 39px;
 }
 .content_title_box2 tr.mOver:hover {
 	background: #f8f8f8;
-} 
-.content_title_box2 a:hover { text-decoration: underline; }
+}
+td.prd_name{
+	text-align: left;
+}
+td.total {
+	padding: 15px;
+    background: #F7F7F7;
+    text-align: right;
+    border-top: 1px solid #DBDBDB;
+}
+.mypage_content_title {
+	text-align: left;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+.mypage_content_t1 {
+	text-align: left;
+    padding-left: 5px;
+}
+.mypage_content_t2 {
+	text-align: right;
+    padding-right: 5px;
+}
+table.order_info {
+	table-layout: fixed;
+    border-collapse: collapse;
+    border-top: 2px solid #ABABAB;
+}
+table.order_info th {
+	font-size: 12px;
+    background: #F8F8F8;
+    font-weight: normal;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-right: 1px solid #DBDBDB;
+    border-bottom: 1px solid #DBDBDB;
+    text-align: left;
+    padding-left: 20px;
+}
+table.order_info td {
+	width: 100%;
+	font-size: 12px;
+    font-weight: normal;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #DBDBDB;
+    text-align: left;
+    padding-left: 20px;
+}
+table.order_info td input {
+	width: 80%;
+}
+table.order_info td input.telBox {
+	width: 5%;
+}
+table.order_info td input.postBox {
+	width: 8%;
+}
+table.order_info td img {
+	border: none;
+    padding: none;
+    vertical-align: middle;
+    padding-bottom: 2px;
+}
+table.order_info td input[type=radio], table.order_info td input[type=checkbox] {
+	width: auto;
+}
+.pay_btn_wrap {
+	width: 100%;
+    margin-top: 20px;
+}
+.pay_btn_box button {
+	background: none;
+	border: none;
+}
+
+
+
+.cart_tab {
+	    border: 1px solid #E0E0E0;
+}
+.cart_tab td {
+	height: 60px;
+    background: url(https://www.fcseoul.com/resources/shop/_img/cart/tab_orderbg.gif) no-repeat center right;
+}
+.cart_text {
+	font-size: 12px;
+	line-height: 18px;
+	text-align: left !important;
+}
+.buy_suc_ment {
+	padding: 20px;	
+}
+.f_size14 { font-size: 14px; }
 .f_red {
 	color: #DE0B12;
 }
-check_box {
-	border: 1px solid #ededed;
+.check_box {
+	border: none;
+    padding: none;
+    vertical-align: middle;
+    padding-bottom: 2px;
 }
+.continue_btn_wrap {
+	width: 100%;
+    margin-top: 20px;
+}
+.continue_btn_wrap a {
+	cursor: pointer;
+}
+.info_title_wrap {
+	text-align: left !important;
+	background: url(https://www.fcseoul.com/resources/shop/_img/cart/tab_ordbg.gif) repeat-x;
+}
+.info_title_wrap a {
+	cursor: pointer;
+}
+.info_text1 {
+	text-align: left;
+}
+.info_text1 p {
+	text-align: left;
+    line-height: 20px;
+    font-size: 11px;
+}
+.info_text2 {
+	text-align: left;
+}
+.info_text2 p {
+	text-align: left;
+    line-height: 20px;
+    font-size: 11px;
+}
+.f_line {
+    padding-left: 20px;
+    font-weight: bold;
+    color: #DC020B;
+    font-size: 11px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
 .page_box_wrap {
 	margin-top: 25px;
 }
@@ -527,14 +651,6 @@ check_box {
 	background: url(https://www.fcseoul.com/resources/shop/_img/board/pg_hline.gif) no-repeat;
     background-position: 0 35%;
     padding: 0 10px;
-}
-.del_btn_wrap {
-	width: 100%;
-    margin-top: 20px;
-	text-align: center;
-}
-.del_btn img {
-	vertical-align: top;
 }
 .footer_wrap {
 	clear: both;

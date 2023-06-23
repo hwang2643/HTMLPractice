@@ -42,25 +42,6 @@
 				$(".info_btn2").attr("src", "https://www.fcseoul.com/resources/shop/_img/cart/tab_ord02_on.gif");
 			});
 		});
-// 		function infoBtn(n) {
-// 			let info1 = document.getElementById("info_text1");
-// 			let info2 = document.getElementById("info_text2");
-// 			let infoBtn1 = document.getElementById("info_btn1");
-// 			let infoBtn2 = document.getElementById("info_btn2");
-// 			if(info1.style.display == "block" && info2.style.display == "none" && n==2) {
-// 				info1.style.display = "none"; 
-// 				info2.style.display = "block"; 
-// 				info2.style.opacity = "0.5"; 
-// 				infoBtn1.src = "https://www.fcseoul.com/resources/shop/_img/cart/tab_ord01_off.gif";
-// 				infoBtn2.src = "https://www.fcseoul.com/resources/shop/_img/cart/tab_ord02_on.gif";
-// 			} else if(info1.style.display == "none" && info2.style.display == "block" && n==1) {
-// 				info1.style.display = "block"; 
-// 				info1.style.opacity = "0.5"; 
-// 				info2.style.display = "none"; 
-// 				infoBtn1.src = "https://www.fcseoul.com/resources/shop/_img/cart/tab_ord01_on.gif";
-// 				infoBtn2.src = "https://www.fcseoul.com/resources/shop/_img/cart/tab_ord02_off.gif";
-// 			}
-// 		}
 	</script>
 </head>
 <body>
@@ -346,7 +327,26 @@
 												<th>GS&POINT</th>
 												<th>비고</th>
 											</tr>
-											<tr>
+											<tr class="mOver">
+												<td><input type="checkbox" class="check_box" name="all"/></td>
+												<td>
+													<a href="http://localhost:9090/WebProject1/EShopDetail.html">
+														<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202318637557_S.jpg"/>
+													</a>
+												</td>
+												<td class="prd_name"><a href="http://localhost:9090/WebProject1/EShopDetail.html">23 홈 유니폼 성인 반팔</a></td>
+												<td>115 / 61개</td>
+												<td class="btnImg">
+													<input type="text" name="qty" maxlength="3" value="1"/>
+													<img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_change2.gif"/>
+												</td>
+												<td><b class="f_red">99,000원</b></td>
+												<td><b class="f_gold">2,970</b></td>
+												<td class="btnImg">
+													<img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_del.gif"/>
+												</td>
+											</tr>
+											<tr style="display: none;"">
 												<td colspan="8">조회된 상품이 없습니다.</td>
 											</tr>
 										</tbody>

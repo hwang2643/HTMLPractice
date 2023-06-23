@@ -482,6 +482,12 @@ option {
 	color: #ac9643;
     font-weight: bold;
 }
+.prd_info_c2 button{
+	background: none;
+	border: none;
+	cursor: pointer;
+	margin-right: -6px;	
+}
 .color_sel {
 	display: inline-block;
     zoom: 1;
@@ -513,6 +519,160 @@ option {
 	padding-right: 3px;
     text-align: left;
 }
+.prd_detail_info {
+	font: 12px/1.2 "돋움", Dotum, Tahoma, "맑은고딕", Malgun Gothic, sans-serif;
+	width: 1000px;
+}
+.prd_detail_info .tab_box {
+	margin-top: 35px;
+    margin-bottom: 20px;
+    background: url(https://www.fcseoul.com/resources/shop/_img/product/prd_tab_wline.gif) repeat-x bottom;
+}
+.tab_box img.tab_on {
+	border-top: 1px solid #7d7d7d;
+    border-right: 1px solid #7d7d7d;
+    border-left: 1px solid #7d7d7d;
+    border-bottom: 1px solid #ffffff;	
+}
+.tab_box img {
+	border-top: 1px solid #d5d5d5;
+    border-right: 1px solid #d5d5d5;
+    border-left: 1px solid #d5d5d5;
+    border-bottom: 1px solid #7d7d7d;
+}
+.prd_info_img {
+	text-align: justify;
+}
+.prd_tag p {
+    margin-top: 10px;
+    text-align: left;
+}
+.prd_text {
+	text-align: justify;
+}
+.prd_text p {
+	text-align: center;
+}
+.prd_text b u span {
+	font-size: 14pt;
+}
+.prd_view1 {
+	text-align: left;
+    font-size: 11px;
+    color: #7d7d7d;
+    line-height: 16px;
+}
+.prd_view2 {
+    text-align: left;
+    font-size: 11px;
+    color: #7d7d7d;
+    line-height: 16px;
+    margin-top: 21px;
+}
+.prd_view_t1 {
+    text-align: left;
+    color: #cb181e;
+    font-weight: bold;
+    background: url(https://www.fcseoul.com/resources/shop/_img/icon/bull_arr01.gif) no-repeat;
+    background-position: 0 10%;
+    padding-left: 16px;
+    padding-bottom: 8px;
+}
+.prd_view_t1 img {
+	vertical-align: middle;
+    padding-left: 7px;
+}
+.prd_view_t2 {
+	text-align: left;
+    background: url(https://www.fcseoul.com/resources/shop/_img/icon/bull_dot01.gif) no-repeat;
+    background-position: 1% 45%;
+    padding-left: 16px;
+}
+.prd_view_t3 {
+	text-align: left;
+    color: #cb181e;
+    background: url(https://www.fcseoul.com/resources/shop/_img/icon/bull_dot01.gif) no-repeat;
+    background-position: 1% 45%;
+    padding-left: 16px;
+}
+.rqa_upper {
+	padding-bottom: 8px;
+	padding-left: 5px;
+    text-align: left;
+}
+.rqa_upper span {
+	font: 12px tahoma, verdana, 돋움, dotum;
+    color: #dc030c;
+    font-weight: bold;
+}
+.prd_rqa_box table tr.rqa_head {
+	border: 1px solid #626262;
+    background-color: #787878;
+}
+.prd_rqa_box table tr.rqa_head th {
+	height: 29px;
+    color: #ffffff;
+}
+.prd_rqa_box table tr.rqa {
+	height: 27px;
+    border-bottom: 1px solid #e2e2e2;
+}
+.prd_rqa_box table tr.rqa td.no {
+    font: 11px tahoma, verdana;
+    color: #b2b1b1;
+}
+.prd_rqa_box table tr.rqa td.rqa_tit {
+	padding-left: 10px;
+    text-align: left;
+    color: #7e7e7e;
+    font-size: 11px;
+    cursor: pointer;
+}
+.prd_rqa_box table tr.rqa td.rqa_tit img {
+	vertical-align: middle;
+    padding-right: 10px;
+}
+.prd_rqa_box table tr.rqa td.rqa_date {
+    font: 11px tahoma, verdana;
+    color: #989898;
+}
+.prd_rqa_box .rqa_content_wrap {
+	border-bottom: 1px solid #e2e2e2;
+    background-color: #fafafa;
+    color: #7e7e7e;
+}
+.rqa_content_wrap .rqa_content_box{
+	text-align: left;
+    padding: 20px 22px;
+}
+.rqa_content_box td {
+    font-size: 11px;
+}
+.rqa_content_box .rqa_content {
+	text-align: left;
+    padding-bottom: 10px;
+}
+.rqa_content_box .answer_box {
+	width: 100%;
+	text-align: left;
+    border: 1px solid #dddddd;
+    background-color: #fff;
+}
+.answer_box .answerL {
+	width: 75px;
+    color: #7e7e7e;
+    font-weight: bold;
+    padding: 15px 22px;
+    vertical-align: top;
+}
+.answer_box .answerR {
+    text-align: justify;
+    padding: 15px 22px 15px 0;
+}
+.off {
+ 	display: none; 
+}
+
 
 .page_box {
 	margin-top: 25px;
@@ -537,6 +697,93 @@ option {
     background: url(https://www.fcseoul.com/resources/shop/_img/board/pg_hline.gif) no-repeat;
     background-position: 0 35%
 }
+.detail_popup_wrap {
+    width: 100%;
+    position: absolute;
+    z-index: 9999;
+    top: 163px;
+}
+.detail_popup_box {
+    width: 700px;
+    height: 700px;
+/*     width: 450px; */
+    margin: 0 auto;
+    background-color: #fff;
+    margin-top: 3%;
+    border-radius: 6px;
+}
+.detail_popup_box h1 {
+    background-color: #f1f1f1;
+    position: relative;
+    color: #231f20;
+    height: 48px;
+    padding: 15px 0 0 20px;
+    border-radius: 6px 6px 0 0;
+}
+.detail_popup_box h1 button {
+	position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 20px;
+    height: 20px;
+    background: url(https://www.fcseoul.com/resources/shop/_img/renew/bt_close.png) no-repeat center center;
+    text-indent: -9999px;
+    border: none;
+}
+.img_slider_box {
+	max-width: 100%;
+	width: 600px !important;
+    height: 600px !important;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+.bx-wrapper {
+	-webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 5px solid #fff;
+}
+.bx-wrapper .bx-next {
+    background: url(https://www.fcseoul.com/resources/shop/_img/renew/ico_next.png) no-repeat 0 0 !important;
+    right: -45px !important;
+}
+.bx-wrapper .bx-prev {
+    left: -25px !important;
+    background: url(https://www.fcseoul.com/resources/shop/_img/renew/ico_prev.png) no-repeat 0 0 !important;
+}
+.bx-wrapper .bx-pager.bx-default-pager a:hover, .bx-wrapper .bx-pager.bx-default-pager a.active, .bx-wrapper .bx-pager.bx-default-pager a:focus {
+    background: #c7202c !important;
+}
+.bx-wrapper .bx-pager, .bx-wrapper .bx-controls-auto {
+    position: absolute;
+    bottom: -20px !important;
+    width: 100%;
+}
+.bx-wrapper .bx-pager.bx-default-pager a {
+    background: #666;
+    text-indent: -9999px;
+    display: block;
+    width: 12px !important;
+    height: 12px !important;
+    margin: 0 5px;
+    outline: 0;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 30px !important;
+}
+.pu {
+	height: 8442px;
+}
+
+
+
+.img_slider_wrap {
+    padding: 0 15px;
+}
+.img_slider_wrap img {
+	width: 600px;
+    height: 600px;
+}
+
 .footer_wrap {
 	clear: both;
     padding-top: 100px;

@@ -28,14 +28,22 @@
 		function dTabOn() {
 			let dTab = document.getElementById("d_tab");
 			let cTab = document.getElementById("c_tab");
+			let oBox = document.getElementById("order_box");
+			let cBox = document.getElementById("cancel_box");
 			dTab.className = "on";
 			cTab.className = "";
+			oBox.style.display = "block";
+			cBox.style.display = "none";
 		}
 		function cTabOn() {
 			let dTab = document.getElementById("d_tab");
 			let cTab = document.getElementById("c_tab");
+			let oBox = document.getElementById("order_box");
+			let cBox = document.getElementById("cancel_box");
 			dTab.className = "";
 			cTab.className = "on";
+			oBox.style.display = "none";
+			cBox.style.display = "block";
 		}
 	</script>
 </head>
@@ -316,33 +324,81 @@
 										</tbody>
 									</table>
 									<div class="br20"></div>
-									<div class="oh_content_title">
-										<div class="oh_content_t1 fl">
-											<img src="https://www.fcseoul.com/resources/shop/_img/mypage/mypage_txt01.gif"/>
+									<div id="order_box">
+										<div class="oh_content_title">
+											<div class="oh_content_t1 fl">
+												<img src="https://www.fcseoul.com/resources/shop/_img/mypage/mypage_txt01.gif"/>
+											</div>
+											<div style="clear:both;"></div>
 										</div>
-										<div style="clear:both;"></div>
+										<table width="100%" class="content_title_box2">
+											<colgroup>
+												<col width="20%"/>
+												<col width="12%"/>
+												<col width="12%"/>
+												<col width="*"/>
+												<col width="12%"/>
+											</colgroup>
+											<tbody>
+												<tr>
+													<th>주문번호</th>
+													<th>결제방법</th>
+													<th>주문일</th>
+													<th>상태(송장번호)</th>
+													<th>취소신청</th>
+												</tr>
+												<tr>
+													<td><a href="http://localhost:9090/WebProject1/EShopOrderTracking.html"><b>85117</b></a></td>
+													<td>신용카드</td>
+													<td class="date">2023-06-23</td>
+													<td class="pay_step"><b>결제완료</b></td>
+													<td>
+														<img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_cancel.gif"/>
+													</td>
+												</tr>
+												<tr style="display: none;">
+													<td><a href="http://localhost:9090/WebProject1/EShopOrderTracking.html"><b>85117</b></a></td>
+													<td>신용카드</td>
+													<td class="date">2023-06-23</td>
+													<td class="pay_step"><b>상품준비중</b></td>
+													<td>
+													</td>
+												</tr>
+												<tr style="display: none;">
+													<td colspan="5">조회된 데이터가 없습니다.</td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
-									<table width="100%" class="content_title_box2">
-										<colgroup>
-											<col width="20%"/>
-											<col width="12%"/>
-											<col width="12%"/>
-											<col width="*"/>
-											<col width="12%"/>
-										</colgroup>
-										<tbody>
-											<tr>
-												<th>주문번호</th>
-												<th>결제방법</th>
-												<th>주문일</th>
-												<th>상태(송장번호)</th>
-												<th>취소신청</th>
-											</tr>
-											<tr>
-												<td colspan="5">조회된 데이터가 없습니다.</td>
-											</tr>
-										</tbody>
-									</table>
+									<div id="cancel_box" style="display: none;">
+										<div class="oh_content_title">
+											<div class="oh_content_t1 fl">
+												<img src="https://www.fcseoul.com/resources/shop/_img/mypage/mypage_txt04.gif"/>
+											</div>
+											<div style="clear:both;"></div>
+										</div>
+										<table width="100%" class="content_title_box2">
+											<colgroup>
+												<col width="20%"/>
+												<col width="12%"/>
+												<col width="12%"/>
+												<col width="*"/>
+												<col width="12%"/>
+											</colgroup>
+											<tbody>
+												<tr>
+													<th>주문번호</th>
+													<th>결제방법</th>
+													<th>주문일</th>
+													<th>처리상태</th>
+													<th>GS포인트</th>
+												</tr>
+												<tr>
+													<td colspan="5">조회된 데이터가 없습니다.</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 									<div class="br20"></div>
 									<div class="page_box_wrap">
 										<div class="page_box">

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<link rel="stylesheet" href="./EShopWishList.css">
+	<link rel="stylesheet" href="./EShopBuy.css">
 	<script src="js/jquery-3.7.0.min.js"></script>
 	<script>
 		function openBtn() {
@@ -27,11 +27,25 @@
 			}
 		}
 		$(function(){
-			$("input:checkbox[name=checkAll]").click(function(){
-				if($(this).is(":checked")==true){
-					$("input:checkbox[name=prdCheck]").prop("checked", true);
+			$("#oCheck").click(function(){
+				if($("#oCheck").is(":checked") == false){
+					$(".in").each(function(index, item){
+						$(this).val("");
+					});
 				} else {
-					$("input:checkbox[name=prdCheck]").prop("checked", false);
+					let pTel = $("#oPTel").text().split(" - ");
+					let hTel = $("#oHTel").text().split(" - ");
+					$("[name=oName]").val($("#oName").text());
+					$("[name=oEmail]").val($("#oEmail").text());
+					$("[name=oPTel1]").val(pTel[0]);
+					$("[name=oPTel2]").val(pTel[1]);
+					$("[name=oPTel3]").val(pTel[2]);
+					$("[name=oPHel1]").val(hTel[0]);
+					$("[name=oPHel2]").val(hTel[1]);
+					$("[name=oPHel3]").val(hTel[2]);
+					$("[name=oPosNum]").val($("#oPosNum").text());
+					$("[name=oAddr1]").val($("#oAddr1").text());
+					$("[name=oAddr2]").val($("#oAddr2").text());
 				}
 			});
 		});
@@ -242,7 +256,7 @@
 						</div>
 						<div class="tab">
 							<a href="">
-								<img src="https://www.fcseoul.com/resources/shop/_img/mypage/lnb_m2_on.gif"/>
+								<img src="https://www.fcseoul.com/resources/shop/_img/mypage/lnb_m2.gif"/>
 							</a>
 						</div>
 						<div class="tab">
@@ -252,87 +266,248 @@
 						</div>
 					</div>
 				</div>
-				<div class="wish_content">
+				<div class="cart_content">
 					<table width="100%">
 						<tbody>
 							<tr>
 								<td class="sub_t1">
 									Home > 마이페이지 >  
-									<span class="sub_t2">Wishlist</span>
+									<span class="sub_t2">장바구니</span>
 								</td>
 							</tr>
 							<tr>
-								<td class="wishpage_title">
-									<img src="https://www.fcseoul.com/resources/shop/_img/mypage/title_wishlist.gif"/>
+								<td class="cartpage_title">
+									<img src="https://www.fcseoul.com/resources/shop/_img/mypage/title_cart.gif"/>
 									<img src="https://www.fcseoul.com/resources/shop/_img/product/title_fcseoul.gif"/>
 								</td>
 							</tr>
 						</tbody>
 					</table>
 					<div class="br15"></div>	
-					<table width="100%" class="content_title_box2">
-						<colgroup>
-							<col width="5%"/>
-							<col width="15%"/>
-							<col width="*"/>
-							<col width="13%"/>
-							<col width="13%"/>
-						</colgroup>
+					<table width="100%">
 						<tbody>
 							<tr>
-								<th><input type="checkbox" class="check_box" name="checkAll"/></th>
-								<th colspan="2">상품명</th>
-								<th>가격</th>
-								<th>등록일</th>
-							</tr>
-							<tr class="mOver">
 								<td>
-									<input type="checkbox" class="check_box" name="prdCheck"/>
+									<table width="100%" class="cart_tab">
+										<colgroup>
+											<col width="33%"/>
+											<col width="33%"/>
+											<col width="*"/>
+										</colgroup>
+										<tbody>
+											<tr>
+												<td><img src="https://www.fcseoul.com/resources/shop/_img/cart/tab_order01_off.gif"/></td>
+												<td><img src="https://www.fcseoul.com/resources/shop/_img/cart/tab_order02_on.gif"/></td>
+												<td><img src="https://www.fcseoul.com/resources/shop/_img/cart/tab_order03_off.gif"/></td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="br20"></div>
+									<div class="cart_text">
+										ㆍ고객님께서 
+										<font class="f_red">주문하신 상품내역을 변경하시거나 또는 삭제</font>하실 수가 없습니다.
+										<br/>
+										ㆍ장바구니에 담긴 상품은 로그아웃시 삭제됩니다. <br/>
+										ㆍ판매가 종료된 상품은 장바구니에서 삭제될 수도 있으며, 구매하실 수 없습니다. <br/>
+									</div>
+									<div class="br10"></div>
+									<table width="100%" class="content_title_box2">
+										<colgroup>
+											<col width="15%"/>
+											<col width="*"/>
+											<col width="10%"/>
+											<col width="10%"/>
+											<col width="10%"/>
+											<col width="30%"/>
+										</colgroup>
+										<tbody>
+											<tr>
+												<th colspan="2">상품명</th>
+												<th>옵션</th>
+												<th>수량</th>
+												<th>가격</th>
+												<th>비고</th>
+											</tr>
+											<tr class="mOver">
+												<td><img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202318637557_S.jpg"/></td>
+												<td class="prd_name">23 홈 유니폼 성인 반팔</td>
+												<td>115</td>
+												<td>1</td>
+												<td class="f_red"><b>99,000 원</b></td>
+												<td>//</td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="br30"></div>	
+									<table class="content_title_box2">
+										<colgroup>
+											<col width="20%"/>
+											<col width="*"/>
+										</colgroup>
+										<tr>
+											<td colspan="6" class="total">
+												상품합계 금액 : 
+												<b>99,000원</b>
+												+ 배송료 : 
+												<b>3500원 총 결제금액</b> 
+												: 
+												<b class="f_red" id="total_price">102,000</b>
+												원
+											</td>
+										</tr>
+									</table>
+									<div class="mypage_content_title">
+										<div class="mypage_content_t1 fl">
+											<img src="https://www.fcseoul.com/resources/shop/_img/mypage/mypage_txt06.gif"/>
+										</div>
+									</div>
+									<div class="br10"></div>
+									<table width="100%" class="order_info">
+										<colgroup>
+											<col width="20%"/>
+											<col width="*"/>
+										</colgroup>
+										<tr>
+											<th>주문자</th>
+											<td id="oName">황재웅</td>
+										</tr>
+										<tr>
+											<th>이메일</th>
+											<td id="oEmail">hjw9981@naver.com</td>
+										</tr>
+										<tr>
+											<th>전화번호</th>
+											<td id="oHTel">
+												--
+											</td>
+										</tr>
+										<tr>
+											<th>핸드폰번호</th>
+											<td id="oPTel">010 - 3236 - 2637</td>
+										</tr>
+										<tr>
+											<th>우편번호</th>
+											<td id ="oPosNum">03302</td>
+										</tr>
+										<tr>
+											<th>주소</th>
+											<td id="oAddr1"></td>
+											<td id="oAddr2"></td>
+										</tr>
+									</table>
+									<div class="br30"></div>
+									<div class="mypage_content_title">
+										<div class="mypage_content_t1 fl">
+											<img src="https://www.fcseoul.com/resources/shop/_img/mypage/mypage_txt07.gif"/>
+										</div>
+									</div>
+									<div class="br10"></div>
+									<table width="100%" class="order_info" id="oInfoCheck">
+										<colgroup>
+											<col width="20%"/>
+											<col width="*"/>
+										</colgroup>
+										<tr>
+											<th>배송방법선택</th>
+											<td>
+												<input type="radio" id="delB" name="del_option" value="B"/>
+												배송
+												<input type="radio" id="delH" name="del_option" value="H"/>
+												현장수령
+											</td>
+										</tr>
+										<tr>
+											<th>주문자와 동일</th>
+											<td>
+												<input type="checkbox" checked="checked" id="oCheck"/>
+											</td>
+										</tr>
+										<tr>
+											<th>주문자</th>
+											<td>
+												<input class="in" type="text" name="oName" value="황재웅"/>
+											</td>
+										</tr>
+										<tr>
+											<th>이메일</th>
+											<td>
+												<input class="in" type="text" name="oEmail" value="hjw9981@naver.com"/>
+											</td>
+										</tr>
+										<tr>
+											<th>전화번호</th>
+											<td>
+												<input class="telBox in" type="text" name="oHTel1"/>
+												-
+												<input class="telBox in" type="text" name="oHTel2"/>
+												-
+												<input class="telBox in" type="text" name="oHTel3"/>
+											</td>
+										</tr>
+										<tr>
+											<th>핸드폰번호</th>
+											<td>
+												<input class="telBox in" type="text" name="oPTel1" value="010"/>
+												-
+												<input class="telBox in" type="text" name="oPTel2" value="3236"/>
+												-
+												<input class="telBox in" type="text" name="oPTel3" value="2637"/>
+											</td>
+										</tr>
+										<tr>
+											<th>우편번호</th>
+											<td>
+												<input class="postBox in" type="text" name="oPosNum" value="03302"/>
+												<a href=""><img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_zip.gif"/></a>
+											</td>
+										</tr>
+										<tr>
+											<th>주소</th>
+											<td>
+												<input class="in" type="text" name="oAddr1" readonly="readonly"/>
+												<br/>
+												<input class="in" type="text" name="oAddr2"/>
+											</td>
+										</tr>
+										<tr>
+											<th>요청사항</th>
+											<td>
+												<input type="text" name="req"/>
+											</td>
+										</tr>
+									</table>
+									<div class="br30"></div>
+									<div class="mypage_content_title">
+										<div class="mypage_content_t1 fl">
+											<img src="https://www.fcseoul.com/resources/shop/_img/mypage/mypage_txt05.gif"/>
+										</div>
+									</div>
+									<div class="br10"></div>
+									<table width="100%" class="order_info">
+										<tr>
+											<th>
+												<input type="radio" name="payWay" value="C"/>
+												신용카드
+												<input type="radio" name="payWay" value="A"/>
+												실시간계좌이체
+											</th>
+										</tr>
+									</table>
+									<div class="br10"></div>
+									<div class="pay_btn_wrap">
+										<div class="pay_btn_box">
+											<button type="submit"><img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_pay.gif"/></button>
+											<button type="button"><img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_cancel3.gif"/></button>
+ 										</div>
+									</div>
 								</td>
-								<td>
-									<a href="http://localhost:9090/WebProject1/EShopDetail.html">
-										<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202318637557_S.jpg"/>
-									</a>
-								</td>
-								<td class="prd_name"><a href="http://localhost:9090/WebProject1/EShopDetail.html">23 홈 유니폼 성인 반팔</a></td>
-								<td class="f_red"><b>99,000 원</b></td>
-								<td class="date">2023-06-23</td>
-							</tr>
-							<tr style="display: none;">
-								<td colspan="5">조회된 상품이 없습니다.</td>
 							</tr>
 						</tbody>
 					</table>
-					<div class="page_box_wrap">
-						<div class="page_box">
-							<a href="">
-								<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_prev2.gif"/>
-							</a>
-							<a href="">
-								<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_prev.gif"/>
-							</a>
-							&nbsp;&nbsp;
-							<a href="" class="pg">
-								<b style="color:#d2232a">1</b>
-							</a>
-							&nbsp;&nbsp;
-							<a href="">
-								<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_next.gif"/>
-							</a>
-							<a href="">
-								<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_next2.gif"/>
-							</a>
-						</div>
-					</div>
-					<div class="del_btn_wrap">
-						<img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_totaldel.gif"/>
-						<img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_totalsel.gif"/>
-					</div>
 				</div>
 			</div>
 			<div style="clear:both;"></div>
 		</div>
-		
 	</div>
 	<div class="footer_wrap">
 		<div class="mainfooter">
