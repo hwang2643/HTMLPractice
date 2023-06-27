@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript">
+		fuwnction dra() {
+			let canvas = document.getElementById("canvas");
+			let ctx = canvas.getContext("2d");
+			ctx.fillRect(100, 100, 10, 10);
+		}
+	</script>
+	<style>
+		canvas { 
+			border: 1px solid black; 
+			width: 640px;
+			height: 408px;
+		}
+	</style>
+</head>
+<body onload="draw();">
+	<canvas id="canvas">
+		
+	</canvas>
+</body>
+</html>

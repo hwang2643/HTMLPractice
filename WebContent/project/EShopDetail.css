@@ -369,7 +369,7 @@ option {
 	width: 100%;
 }
 .main_container a:hover {
-	text-decoration: underline;
+/* 	text-decoration: underline; */
 }
 .content_wrap {
     position: relative;

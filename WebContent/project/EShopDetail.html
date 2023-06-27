@@ -67,7 +67,10 @@
 			});
 			calc();
 			
-			
+			$("#t1").click(function(){
+				let lo = $(this).parent().find(".tab_on").offset();
+				$("html, body").animate({scrollTop : lo.top}, 500);
+			});
 		});
 		
 		function calc() {
@@ -280,8 +283,8 @@
 						<div class="prd_img">
 							<img src="https://files.fcseoul.com/multi01/SHOP/Product/Product/202318637557_S.jpg"/>
 						</div>
-						<div class="detail_btn">
-								<img src="https://www.fcseoul.com/resources/shop/_img/btn/zoom.gif"/>
+						<div>
+								<img class="detail_btn" src="https://www.fcseoul.com/resources/shop/_img/btn/zoom.gif"/>
 						</div>
 						<div style="clear:both;"></div>
 					</div>
@@ -362,11 +365,11 @@
 					</div>
 					<div class="prd_detail_info">
 						<div class="tab_box">
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab1_on.gif" class="tab_on"/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab2.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab3.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab4.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab5.gif" class=""/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab1_on.gif" class="tab_on" id="t1"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab2.gif" class="" id="t2"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab3.gif" class="" id="t3"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab4.gif" class="" id="t4"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab5.gif" class="" id="t5"/></a>
 						</div>
 						<div class="prd_info_img">
 							<img src="https://files.fcseoul.com/multi01/SHOP/Product/Content/1678340461821.jpg"/>
@@ -375,11 +378,11 @@
 							<p># 유니폼 # 40주년 # 홈 # 어웨이 # 필드</p>
 						</div>
 						<div class="tab_box">
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab1.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab2_on.gif" class="tab_on"/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab3.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab4.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab5.gif" class=""/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab1.gif" class="" id="t1"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab2_on.gif" class="tab_on" id="t2"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab3.gif" class="" id="t3"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab4.gif" class="" id="t4"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab5.gif" class="" id="t5"/></a>
 						</div>
 						<div class="prd_text">
 							<p>
@@ -455,11 +458,11 @@
 							</p>
 						</div>
 						<div class="tab_box">
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab1.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab2.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab3_on.gif" class="tab_on"/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab4.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab5.gif" class=""/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab1.gif" class="" id="t1"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab2.gif" class="" id="t2"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab3_on.gif" class="tab_on" id="t3"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab4.gif" class="" id="t4"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab5.gif" class="" id="t5"/></a>
 						</div>
 						<div>
 							<ul class="prd_view1">
@@ -480,11 +483,11 @@
 							</ul>
 						</div>
 						<div class="tab_box">
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab1.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab2.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab3.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab4_on.gif" class="tab_on"/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab5.gif" class=""/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab1.gif" class="" id="t1"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab2.gif" class="" id="t2"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab3.gif" class="" id="t3"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab4_on.gif" class="tab_on" id="t4"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab5.gif" class="" id="t5"/></a>
 						</div>
 						<div>
 							<ul class="prd_view1">
@@ -497,11 +500,11 @@
 							</ul>
 						</div>
 						<div class="tab_box">
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab1.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab2.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab3.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab4.gif" class=""/></a>
-							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab5_on.gif" class="tab_on"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab1.gif" class="" id="t1"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab2.gif" class="" id="t2"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab3.gif" class="" id="t3"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab4.gif" class="" id="t4"/></a>
+							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab5_on.gif" class="tab_on" id="t5"/></a>
 						</div>
 						<div class="prd_rqa_box">
 							<div class="rqa_upper">
