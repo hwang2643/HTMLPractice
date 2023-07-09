@@ -4,14 +4,22 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<script type="text/javascript">
-		fuwnction dra() {
-			let canvas = document.getElementById("canvas");
-			let ctx = canvas.getContext("2d");
-			ctx.fillRect(100, 100, 10, 10);
+		function draw() {
+			let canvasDraw = document.getElementById("canvasDraw");
+			let ctx = canvasDraw.getContext("2d");
+			for(let i=220; i<458; i+=14) {
+				for(let j=150; j<546; j+=18){
+					ctx.fillStyle = "#e0e0e0";
+					ctx.fillRect(i, j, 10, 14);
+				}
+			}
+			ctx.clearRect(290, 150, 98, 72);
+			ctx.fillRect(304, 114, 66, 86)
 		}
 	</script>
 	<style>
 		canvas { 
+			color: grey;
 			border: 1px solid black; 
 			width: 640px;
 			height: 408px;
@@ -19,7 +27,7 @@
 	</style>
 </head>
 <body onload="draw();">
-	<canvas id="canvas">
+	<canvas id="canvasDraw" width="680" height="604">
 		
 	</canvas>
 </body>
