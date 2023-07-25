@@ -552,6 +552,10 @@ table.order_info td img {
 table.order_info td input[type=radio], table.order_info td input[type=checkbox] {
 	width: auto;
 }
+table.order_info button {
+	border: none;
+	background-color: white;
+}
 .pay_btn_wrap {
 	width: 100%;
     margin-top: 20px;

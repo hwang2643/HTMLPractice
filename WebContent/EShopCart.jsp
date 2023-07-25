@@ -63,12 +63,19 @@
 				alert("준비중입니다.")
 			});
 			$(".dup_btn").click(function(){
-				let qty = $("#qty_input").val();
+				let idx = $(this).index();
+				let qty = $(".qty_input").eq(idx).val();
 				if(qty <= 0) {
 					alert("0개 이하로 수량을 변경할 수 없습니다.");
 					return false;
 				} else {
 					alert("수량이 변경되었습니다.");
+				}
+			});
+			$(".buy_sel").click(function(){
+				if($(".check_box").is(":checked") == false) {
+					alert("상품을 선택해주세요.");
+					return false;
 				}
 			});
 		});
@@ -200,27 +207,27 @@
 						<span>고객센터</span>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/faqList">
+						<a href="EShopFAQ.jsp?id=<%=id%>">
 							FAQ
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/qnaList">
+						<a href="EShopQ&A.jsp?id=<%=id%>">
 							Q&A
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/notice">
+						<a href="EShopNotice.jsp?id=<%=id%>">
 							공지사항
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/terms">
+						<a href="EShopTerm.jsp?id=<%=id%>">
 							이용약관
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/privacy">
+						<a href="EShopPrivacy.jsp?id=<%=id%>">
 							개인정보
 						</a>
 					</div>
@@ -238,17 +245,17 @@
 		<div class="qmenu">
 			<span>QUICK MENU</span>
 			<div class="m1">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopMyPage.jsp?id=<%=id%>">
 					<span>마이페이지</span>
 				</a>
 			</div>
 			<div class="m2">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopCart.jsp?id=<%=id%>">
 					<span>장바구니</span>
 				</a>
 			</div>
 			<div class="m3">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopWishList.jsp?id=<%=id%>">
 					<span>찜한상품</span>
 				</a>
 			</div>
@@ -379,7 +386,7 @@
 													<td class="prd_name"><a href="EShopDetail.jsp?id=<%=id%>&goodsId=<%=cDto.getGoodsId()%>"><%=cDto.getGoodsName() %></a></td>
 													<td><%=cDto.getGoodsSize() %> / <%=cDto.getInventory() %>개</td>
 													<td class="btnImg">
-														<input id="qty_input" type="text" name="amount" maxlength="3" value="<%=cDto.getQty()%>"/>
+														<input class="qty_input" type="text" name="amount" maxlength="3" value="<%=cDto.getQty()%>"/>
 														<button type="submit" class="dup_btn" name="cBtn" value="cDup<%=n%>">
 															<img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_change2.gif"/>
 														</button>

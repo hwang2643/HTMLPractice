@@ -1,3 +1,5 @@
+<%@page import="dto.BoardDto"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
@@ -32,12 +34,40 @@
 	<script src="js/jquery-3.7.0.min.js"></script>
 	<script>
 		$(function(){
-			$("#btn_write").click(function(){
-				location.href = "Ex13BoardWrite.jsp";
-			});
+// 			$("#btn_write").click(function(){
+// 				location.href = "Ex13BoardWrite.jsp";
+// 			});
+// 			$("tr").click(function(){
+// 				let bno = $(this).find(".bno").text();
+// 				location.href = "Ex13BoardDetail.jsp?bno=" + bno;
+// 			});
+			
 			$("tr").click(function(){
 				let bno = $(this).find(".bno").text();
-				location.href = "Ex13BoardDetail.jsp?bno=" + bno;
+				let title = $(this).next().text();
+				$.ajax({
+					type: 'get',
+					url: 'BoardServlet',
+					data: { "board_num" : bno, "title" : title },
+					datatype: "json",
+					success: function(data) {
+// 						alert("성공");
+// 						alert(data.result);
+// 						let txt = data.title;
+						$(".bno").each(function(index, item){
+							if($(item).text() == bno) {
+								let txt = $(item).next().text();
+								$(item).next().text(data.title);
+							}
+						});
+						
+					},
+					error: function (request, status, error) {
+				        console.log("code: " + request.status)
+				        console.log("message: " + request.responseText)
+				        console.log("error: " + error);
+				    }
+				});
 			});
 		});
 	</script>
@@ -60,14 +90,16 @@
 			<th>작성일시</th>
 		</tr>
 		<%
+		
+			ArrayList<BoardDto> boardList = new ArrayList<BoardDto>();
 			Connection conn = getConnection();
 			
 			String sql = " SELECT b2.*"
 						+ " FROM(SELECT rownum rnum, b1.*"
 						+ " FROM(SELECT * FROM board ORDER BY bno DESC) b1) b2"
 						+ " WHERE b2.rnum>=? AND b2.rnum<=?";
-			int endNum = pageNum * 10;
-			int startNum = endNum - 9;
+			int endNum = pageNum * 15;
+			int startNum = endNum - 14;
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 								// PreparedStatement : sql문을 저장하고 실행하는 객체
 								// conn.prepareStatement(...) : pstmt 객체를 만듦 & sql문을 장착함.
@@ -85,14 +117,27 @@
 						// rs,next() : rs손가락을 한줄 내리고
 						// 			  가리키는 데이터가 존재하면 true를 리턴.
 						// 			  가리키는 데이터가 존재하지 않으면 false를 리턴.
+				int bno = rs.getInt("bno");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String writer = rs.getString("writer");
+				String writedate = rs.getString("writedate");
+				BoardDto dto = new BoardDto(bno, title, content, writer, writedate);
+				boardList.add(dto);
+			}
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
+			for(BoardDto bDto : boardList) {
 		%>
-		<tr>
-			<td class="bno"><%=rs.getInt("bno") %></td>
-			<td><%=rs.getString("title") %></td>
-			<td><%=rs.getString("writer") %></td>
-			<td><%=rs.getString("writedate") %></td>
-		</tr>
-		<%
+			<tr>
+				<td class="bno"><%=bDto.getBno() %></td>
+				<td><%=bDto.getTitle() %></td>
+				<td><%=bDto.getWriter() %></td>
+				<td><%=bDto.getWritedate() %></td>
+			</tr>
+		<%				
 			}
 		%>
 	</table>
@@ -111,21 +156,9 @@
 				}
 			}
 		%>
-<!-- 		<a href="Ex13BoardList.jsp?page=1">1</a> -->
-<!-- 		<a href="Ex13BoardList.jsp?page=2">2</a> -->
-<!-- 		<a href="Ex13BoardList.jsp?page=3">3</a> -->
-<!-- 		<a href="Ex13BoardList.jsp?page=4">4</a> -->
-<!-- 		<a href="Ex13BoardList.jsp?page=5">5</a> -->
-<!-- 		<a href="Ex13BoardList.jsp?page=6">6</a> -->
-<!-- 		<a href="Ex13BoardList.jsp?page=7">7</a> -->
 	</div>
 	<div>
 		<button id="btn_write">글쓰기</button>
 	</div>
 </body>
 </html>
-<%
-	rs.close();
-	pstmt.close();
-	conn.close();
-%>

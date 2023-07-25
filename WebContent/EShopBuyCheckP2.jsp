@@ -4,51 +4,55 @@
 <%@ page import="dao.EShopBuyDao"%>
     
 <%
-// 	String goodsId = "";
-// 	String goodsSize = "";
-// 	String oQty = "";
-	String id = request.getParameter("id");
 	String[] goodsId = request.getParameterValues("goodsId");
-	String[] goodsSize = request.getParameterValues("goodsSize");
-	String[] oQty = request.getParameterValues("amount");
-	String[] checked = request.getParameterValues("checked");
-	String cBtn = request.getParameter("cBtn");
-	if(cBtn.equals("buySel")) {
-		String[] goodsId2 = new String[checked.length];
-		String[] goodsSize2 = new String[checked.length];
-		String[] oQty2 = new String[checked.length];
-		for(int i=0; i<=goodsId.length-1; i++) {
-			for(int j=0; j<=checked.length-1; j++) {
-				if(checked[j].charAt(0)-48 == i) {
-					goodsId2[j] = goodsId[i];
-					goodsSize2[j] = goodsSize[i];
-					oQty2[j] = oQty[i];
-				}
-			}
-		}
-		goodsId = goodsId2;
-		goodsSize = goodsSize2;
-		oQty = oQty2;
-// 		for(int i=0; i<=goodsId.length-1; i++) {
-// 			System.out.println("goodsId : " + goodsId[i]);
-// 			System.out.println("goodsSize : " + goodsSize[i]);
-// 			System.out.println("goodsQty : " + oQty[i]);
-// 		}
-// 		System.out.println();
-// 	}
+	String id = "";
+	String delOption = "";
+	String oName = "";
+	String oEmail = "";
+	String oPhone = "";
+	String oPostalNum = "";
+	String oAddress = "";
+	String req = "";
+	String payWay = "";
+	String oQty[] = request.getParameterValues("oQty");
+	String goodsSize[] = request.getParameterValues("goodsSize");
+	String buyBtn = "";
+	String bcBtn = "";
+	int[] oNum = new int[goodsId.length];
+	for(int i=0; i<=oNum.length-1; i++) {
+		oNum[i] = (int)((Math.random()*100000)+10000);
+	}
 	
+	try{
+		id = request.getParameter("id");
+		delOption = request.getParameter("delOption");
+		oName = request.getParameter("oName");
+		oEmail = request.getParameter("oEmail");
+		oPhone = request.getParameter("oPTel1") + request.getParameter("oPTel2") + request.getParameter("oPTel3");
+		oPostalNum = request.getParameter("oPosNum");
+		oAddress = request.getParameter("oAddr1") + request.getParameter("oAddr2");
+		req = request.getParameter("req");
+		payWay = request.getParameter("payWay");
+		buyBtn = request.getParameter("buyBtn");
+		bcBtn = request.getParameter("BCBtn");
+		
+	} catch(Exception e) {
+		
+	}
 	
-// 	try{
-// 		id = request.getParameter("id");
-// 	} catch(Exception e) {
-// 		id = "";
-// 	}
-	
-	
-	
+	boolean insertPayment = false;
 	EShopBuyDao EShopBuyDao = new EShopBuyDao();
-// 	EShopBuyDto buyDto = EShopBuyDao.buyPrd(id, goodsId, goodsSize);
+	for(int i=0; i<=goodsId.length-1; i++) {
+		insertPayment = EShopBuyDao.insertPayment(id, delOption, oName, oEmail, oPhone, oPostalNum, oAddress, req, payWay, oQty[i], goodsId[i], goodsSize[i], oNum[i]);
+	}
 	EShopBuyDto buyInfoDto = EShopBuyDao.buyInfo(id);
+	EShopBuyDto buyCheckDto = EShopBuyDao.buyCheckSelect(id, goodsId[0], goodsSize[0], oQty[0]);
+	EShopBuyDto pgTest = EShopBuyDao.buyPrd(id, goodsId[0], goodsSize[0]);
+	int total = 0;
+	for(int i=0; i<=goodsId.length-1; i++) {
+		EShopBuyDto buyDto = EShopBuyDao.buyPrd(id, goodsId[i], goodsSize[i]);
+		total += buyDto.getPrice();
+	}
 	
 %>
 <!DOCTYPE html>
@@ -57,8 +61,67 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<link rel="stylesheet" href="./EShopBuy.css">
-	<script src="js/jquery-3.7.0.min.js"></script>
+<!-- 	<script src="js/jquery-3.7.0.min.js"></script> -->
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<!--     <script src="https://cdn.iamport.kr/v1/iamport.js"></script> -->
+    
 	<script>
+		var IMP = window.IMP;
+	    IMP.init("imp42223837");
+		function requestPay() {
+		      // IMP.request_pay(param, callback) 결제창 호출
+		      if(<%=goodsId.length%> > 1) {
+			      IMP.request_pay({ // param
+			          pg: "INIpayTest",
+			          pay_method: "card",
+			          merchant_uid: "<%=goodsId[0]%>",
+			          name: "<%=pgTest.getGoodsName()%>외 <%=goodsId.length-1%>종",
+			          amount: 100,
+			          buyer_email: "<%=buyCheckDto.getEmail()%>",
+			          buyer_name: "<%=buyCheckDto.getName()%>",
+			          buyer_tel: "<%=buyCheckDto.getPhone()%>",
+			          buyer_addr: "<%=buyCheckDto.getAddress()%>",
+			          buyer_postcode: "<%=buyCheckDto.getPostalNum()%>"
+			      }, function (rsp) { // callback
+			          if (rsp.success) {
+			              // 결제 성공 시 로직,
+			              alert("결제가 완료되었습니다.");
+			              $("#firm").attr("action", "EShopBuySuccess.jsp").submit();
+			          } else {
+			              // 결제 실패 시 로직,
+			              alert("결제가 취소되었습니다.");
+			          }
+			      });
+		      } else {
+		    	  IMP.request_pay({ // param
+			          pg: "INIpayTest",
+			          pay_method: "card",
+			          merchant_uid: "<%=goodsId[0]%>",
+			          name: "<%=pgTest.getGoodsName()%>",
+			          amount: 100,
+			          buyer_email: "<%=buyCheckDto.getEmail()%>",
+			          buyer_name: "<%=buyCheckDto.getName()%>",
+			          buyer_tel: "<%=buyCheckDto.getPhone()%>",
+			          buyer_addr: "<%=buyCheckDto.getAddress()%>",
+			          buyer_postcode: "<%=buyCheckDto.getPostalNum()%>"
+			      }, function (rsp) { // callback
+			          if (rsp.success) {
+			              // 결제 성공 시 로직,
+			              alert("결제가 완료되었습니다.");
+			              $("#firm").attr("action", "EShopBuySuccess.jsp").submit();
+			          } else {
+			              // 결제 실패 시 로직,
+			              alert("결제가 취소되었습니다.");
+			          }
+			      });
+		      }
+		    }
+	</script>
+	<script>
+		
 		function openBtn() {
 			let btn1 = document.getElementById("btn1");
 			let btn2 = document.getElementById("btn2");
@@ -80,43 +143,26 @@
 			}
 		}
 		$(function(){
-			$("#oCheck").click(function(){
-				if($("#oCheck").is(":checked") == false){
-					$(".in").each(function(index, item){
-						$(this).val("");
-					});
-				} else {
-					let pTel = $("#oPTel").text().split(" - ");
-					let hTel = $("#oHTel").text().split(" - ");
-					$("[name=oName]").val($("#oName").text());
-					$("[name=oEmail]").val($("#oEmail").text());
-					$("[name=oPTel1]").val(pTel[0]);
-					$("[name=oPTel2]").val(pTel[1]);
-					$("[name=oPTel3]").val(pTel[2]);
-					$("[name=oPHel1]").val(hTel[0]);
-					$("[name=oPHel2]").val(hTel[1]);
-					$("[name=oPHel3]").val(hTel[2]);
-					$("[name=oPosNum]").val($("#oPosNum").text());
-					$("[name=oAddr1]").val($("#oAddr1").text());
-					$("[name=oAddr2]").val($("#oAddr2").text());
-				}
+			$("#infoBtn1").click(function(){
+				$(".info_text1").css("display", "block").animate({"opacity": "1"}, 1000);
+				$(".info_text2").css("display", "none");
+				$(".info_text2").css("opacity", "0");
+				$(".info_btn1").attr("src", "https://www.fcseoul.com/resources/shop/_img/cart/tab_ord01_on.gif");
+				$(".info_btn2").attr("src", "https://www.fcseoul.com/resources/shop/_img/cart/tab_ord02_off.gif");
+			})
+			$("#infoBtn2").click(function(){
+				$(".info_text2").css("display", "block").animate({"opacity": "1"}, 1000);
+				$(".info_text1").css("display", "none");
+				$(".info_text1").css("opacity", "0");
+				$(".info_btn1").attr("src", "https://www.fcseoul.com/resources/shop/_img/cart/tab_ord01_off.gif");
+				$(".info_btn2").attr("src", "https://www.fcseoul.com/resources/shop/_img/cart/tab_ord02_on.gif");
 			});
 			$(".cuponAlert").click(function(){
 				alert("준비중입니다.")
 			});
-			
-			$("button[name=buyBtn]").click(function(){
-				if($("input:radio[name=delOption]").is(":checked") == false) {
-					alert("배송방법을 선택해주세요.");
-					return false;
-				} else if($("input:radio[name=payWay]").is(":checked") == false) {
-					alert("결제방법을 선택해주세요.");
-					return false;
-				} else {
-					return true;
-				}
-			});
 		});
+		
+		
 	</script>
 </head>
 <body>
@@ -245,27 +291,27 @@
 						<span>고객센터</span>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/faqList">
+						<a href="EShopFAQ.jsp?id=<%=id%>">
 							FAQ
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/qnaList">
+						<a href="EShopQ&A.jsp?id=<%=id%>">
 							Q&A
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/notice">
+						<a href="EShopNotice.jsp?id=<%=id%>">
 							공지사항
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/terms">
+						<a href="EShopTerm.jsp?id=<%=id%>">
 							이용약관
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/privacy">
+						<a href="EShopPrivacy.jsp?id=<%=id%>">
 							개인정보
 						</a>
 					</div>
@@ -283,17 +329,17 @@
 		<div class="qmenu">
 			<span>QUICK MENU</span>
 			<div class="m1">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopMyPage.jsp?id=<%=id%>">
 					<span>마이페이지</span>
 				</a>
 			</div>
 			<div class="m2">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopCart.jsp?id=<%=id%>">
 					<span>장바구니</span>
 				</a>
 			</div>
 			<div class="m3">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopWishList.jsp?id=<%=id%>">
 					<span>찜한상품</span>
 				</a>
 			</div>
@@ -373,10 +419,12 @@
 									<div class="br20"></div>
 									<div class="cart_text">
 										ㆍ고객님께서 
-										<font class="f_red">주문하신 상품내역을 변경하시거나 또는 삭제</font>하실 수가 없습니다.
+										<font class="f_red">주문하신 상품내역을 변경하시거나 삭제</font>하실 수가 없습니다.
 										<br/>
 										ㆍ장바구니에 담긴 상품은 로그아웃시 삭제됩니다. <br/>
 										ㆍ판매가 종료된 상품은 장바구니에서 삭제될 수도 있으며, 구매하실 수 없습니다. <br/>
+										ㆍ계속주문을 원하시면 '쇼핑하기'를 클릭하세요.<br/>
+										ㆍ바로구매를 원하시면 '주문하기'를 클릭하세요.
 									</div>
 									<div class="br10"></div>
 									<table width="100%" class="content_title_box2">
@@ -399,16 +447,16 @@
 											<%
 											for(int i=0; i<=goodsId.length-1; i++) {
 												EShopBuyDto buyDto = EShopBuyDao.buyPrd(id, goodsId[i], goodsSize[i]);
-											%>	
+											%>
 												<tr class="mOver">
 													<td><img src="<%=buyDto.getGoodsImg()%>"/></td>
-													<td class="prd_name"><%=buyDto.getGoodsName() %></td>
-													<td><%=goodsSize[i] %></td>
-													<td><%=oQty[i] %></td>
-													<td class="f_red"><b><%=buyDto.getPrice() %> 원</b></td>
+													<td class="prd_name"><%=buyDto.getGoodsName()%></td>
+													<td><%=goodsSize[i]%></td>
+													<td><%=oQty[i]%></td>
+													<td class="f_red"><b><%=buyDto.getPrice()%> 원</b></td>
 													<td>//</td>
 												</tr>
-											<%	
+											<%
 											}
 											%>
 										</tbody>
@@ -424,12 +472,11 @@
 												상품합계 금액 : 
 												<b>
 												<%
-													int total = 0;
+												
 													for(int i=0; i<=goodsId.length-1; i++) {
 														EShopBuyDto buyDto = EShopBuyDao.buyPrd(id, goodsId[i], goodsSize[i]);
-														total += buyDto.getPrice();
+// 														total += buyDto.getPrice();
 													}
-													out.print(total);
 												%>
 												원</b>
 												+ 배송료 : 
@@ -440,6 +487,7 @@
 											</td>
 										</tr>
 									</table>
+									<div class="br30"></div>
 									<div class="mypage_content_title">
 										<div class="mypage_content_t1 fl">
 											<img src="https://www.fcseoul.com/resources/shop/_img/mypage/mypage_txt06.gif"/>
@@ -453,15 +501,19 @@
 										</colgroup>
 										<tr>
 											<th>주문자</th>
-											<td id="oName"><%=buyInfoDto.getName() %></td>
+											<td>
+												<%=buyInfoDto.getName() %>
+											</td>
 										</tr>
 										<tr>
 											<th>이메일</th>
-											<td id="oEmail"><%=buyInfoDto.getEmail() %></td>
+											<td>
+												<%=buyInfoDto.getEmail() %>
+											</td>
 										</tr>
 										<tr>
 											<th>전화번호</th>
-											<td id="oHTel">
+											<td>
 												--
 											</td>
 										</tr>
@@ -470,13 +522,11 @@
 											<td id="oPTel"><%=buyInfoDto.getPhone().substring(0,3) %> - <%=buyInfoDto.getPhone().substring(3, 7) %> - <%=buyInfoDto.getPhone().substring(7) %></td>
 										</tr>
 										<tr>
-											<th>우편번호</th>
-											<td id ="oPosNum"><%=buyInfoDto.getPostalNum() %></td>
-										</tr>
-										<tr>
 											<th>주소</th>
-											<td id="oAddr1"><%=buyInfoDto.getAddress() %></td>
-											<td id="oAddr2"></td>
+											<td>
+												(<%=buyInfoDto.getPostalNum() %>) <br/>
+												<%=buyInfoDto.getAddress() %>
+											</td>
 										</tr>
 									</table>
 									<div class="br30"></div>
@@ -486,18 +536,7 @@
 										</div>
 									</div>
 									<div class="br10"></div>
-									<form action="EShopBuyCheck.jsp">
-									<input type="hidden" name="id" value="<%=id %>"/>
-									<%
-									for(int i=0; i<=goodsId.length-1; i++) {
-									%>
-									<input type="hidden" name="oQty" value="<%=oQty[i] %>"/>
-									<input type="hidden" name="goodsId" value="<%=goodsId[i] %>"/>
-									<input type="hidden" name="goodsSize" value="<%=goodsSize[i]%>"/>
-									<%
-									}
-									%>
-									<table width="100%" class="order_info" id="oInfoCheck">
+									<table width="100%" class="order_info">
 										<colgroup>
 											<col width="20%"/>
 											<col width="*"/>
@@ -505,97 +544,66 @@
 										<tr>
 											<th>배송방법선택</th>
 											<td>
-												<input type="radio" id="delB" name="delOption" value="배송"/>
-												배송
-												<input type="radio" id="delH" name="delOption" value="현장수령"/>
-												현장수령
-											</td>
-										</tr>
-										<tr>
-											<th>주문자와 동일</th>
-											<td>
-												<input type="checkbox" checked="checked" id="oCheck"/>
+												<%=buyCheckDto.getoCheck() %>
 											</td>
 										</tr>
 										<tr>
 											<th>주문자</th>
 											<td>
-												<input class="in" type="text" name="oName" value="<%=buyInfoDto.getName() %>"/>
-											</td>
-										</tr>
-										<tr>
-											<th>이메일</th>
-											<td>
-												<input class="in" type="text" name="oEmail" value="<%=buyInfoDto.getEmail() %>"/>
+												<%=buyCheckDto.getName() %>
 											</td>
 										</tr>
 										<tr>
 											<th>전화번호</th>
 											<td>
-												<input class="telBox in" type="text" name="oHTel1"/>
-												-
-												<input class="telBox in" type="text" name="oHTel2"/>
-												-
-												<input class="telBox in" type="text" name="oHTel3"/>
+												--
 											</td>
 										</tr>
 										<tr>
 											<th>핸드폰번호</th>
-											<td>
-												<input class="telBox in" type="text" name="oPTel1" value="<%=buyInfoDto.getPhone().substring(0, 3) %>"/>
-												-
-												<input class="telBox in" type="text" name="oPTel2" value="<%=buyInfoDto.getPhone().substring(3, 7) %>"/>
-												-
-												<input class="telBox in" type="text" name="oPTel3" value="<%=buyInfoDto.getPhone().substring(7) %>"/>
-											</td>
-										</tr>
-										<tr>
-											<th>우편번호</th>
-											<td>
-												<input class="postBox in" type="text" name="oPosNum" value="<%=buyInfoDto.getPostalNum() %>"/>
-												<a href=""><img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_zip.gif"/></a>
-											</td>
+											<td id="oPTel"><%=buyCheckDto.getPhone().substring(0,3) %> - <%=buyCheckDto.getPhone().substring(3, 7) %> - <%=buyCheckDto.getPhone().substring(7) %></td>
 										</tr>
 										<tr>
 											<th>주소</th>
 											<td>
-												<input class="in" type="text" name="oAddr1" readonly="readonly" value="<%=buyInfoDto.getAddress()%>"/>
-												<br/>
-												<input class="in" type="text" name="oAddr2"/>
+												(<%=buyCheckDto.getPostalNum() %>) <br/>
+												<%=buyCheckDto.getAddress() %>
 											</td>
 										</tr>
 										<tr>
-											<th>요청사항</th>
+											<th>배송시 요청사항</th>
+											<td class="req">
+												<%=buyCheckDto.getoState() %>
+											</td>
+										</tr>
+										<tr>
+											<th>결제방법</th>
 											<td>
-												<input type="text" name="req" value=" "/>
+												<%=buyCheckDto.getPayWay() %>
 											</td>
 										</tr>
 									</table>
 									<div class="br30"></div>
-									<div class="mypage_content_title">
-										<div class="mypage_content_t1 fl">
-											<img src="https://www.fcseoul.com/resources/shop/_img/mypage/mypage_txt05.gif"/>
-										</div>
-									</div>
-									<div class="br10"></div>
-									<table width="100%" class="order_info">
-										<tr>
-											<th>
-												<input type="radio" name="payWay" value="신용카드"/>
-												신용카드
-												<input type="radio" name="payWay" value="계좌이체"/>
-												실시간계좌이체
-											</th>
-										</tr>
-									</table>
-									<div class="br10"></div>
 									<div class="pay_btn_wrap">
+										<form action="EShopBuySuccess.jsp" id="firm">
 										<div class="pay_btn_box">
-											<button type="submit" name="buyBtn" value="instance"><img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_pay.gif"/></button>
-											<button type="button"><img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_cancel3.gif"/></button>
+											<%
+											for(int i=0; i<=goodsId.length-1; i++) {
+											%>
+											<input type="hidden" name="oQty" value="<%=oQty[i] %>"/>
+											<input type="hidden" name="goodsId" value="<%=goodsId[i] %>"/>
+											<input type="hidden" name="goodsSize" value="<%=goodsSize[i]%>"/>
+											<%
+											}
+											%>
+											<input type="hidden" name="id" value="<%=id %>"/>
+											<input type="hidden" name="oNum" value=""/>
+											<input type="hidden" name="buyBtn" value=""/>
+											<button type="button" name="BCBtn" value="buy" onclick="requestPay()"><img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_pay.gif"/></button>
+											<button type="submit" name="BCBtn" value="cancel"><img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_cancel3.gif"/></button>
  										</div>
+ 										</form>
 									</div>
-									</form>
 								</td>
 							</tr>
 						</tbody>

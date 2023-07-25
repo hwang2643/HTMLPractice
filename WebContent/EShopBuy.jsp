@@ -4,9 +4,6 @@
 <%@ page import="dao.EShopBuyDao"%>
     
 <%
-// 	String goodsId = "";
-// 	String goodsSize = "";
-// 	String oQty = "";
 	String id = request.getParameter("id");
 	String[] goodsId = request.getParameterValues("goodsId");
 	String[] goodsSize = request.getParameterValues("goodsSize");
@@ -29,26 +26,13 @@
 		goodsId = goodsId2;
 		goodsSize = goodsSize2;
 		oQty = oQty2;
-// 		for(int i=0; i<=goodsId.length-1; i++) {
-// 			System.out.println("goodsId : " + goodsId[i]);
-// 			System.out.println("goodsSize : " + goodsSize[i]);
-// 			System.out.println("goodsQty : " + oQty[i]);
-// 		}
-// 		System.out.println();
-// 	}
-	
-	
-// 	try{
-// 		id = request.getParameter("id");
-// 	} catch(Exception e) {
-// 		id = "";
-// 	}
+	}
 	
 	
 	
 	EShopBuyDao EShopBuyDao = new EShopBuyDao();
-// 	EShopBuyDto buyDto = EShopBuyDao.buyPrd(id, goodsId, goodsSize);
 	EShopBuyDto buyInfoDto = EShopBuyDao.buyInfo(id);
+	
 	
 %>
 <!DOCTYPE html>
@@ -58,6 +42,7 @@
 	<title>Insert title here</title>
 	<link rel="stylesheet" href="./EShopBuy.css">
 	<script src="js/jquery-3.7.0.min.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 		function openBtn() {
 			let btn1 = document.getElementById("btn1");
@@ -117,6 +102,19 @@
 				}
 			});
 		});
+		
+		window.onload = function(){				
+			document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면					
+			//카카오 지도 발생					
+				new daum.Postcode({					
+					oncomplete: function(data) { //선택시 입력값 세팅			
+						document.getElementById('postal_code').value = data.zonecode;
+						document.getElementById("address").value = data.address; // 주소 넣기					
+						document.querySelector("input[name=oAddr2]").focus(); //상세입력 포커싱					
+					}					
+				}).open();					
+			});					
+		}					
 	</script>
 </head>
 <body>
@@ -245,27 +243,27 @@
 						<span>고객센터</span>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/faqList">
+						<a href="EShopFAQ.jsp?id=<%=id%>">
 							FAQ
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/qnaList">
+						<a href="EShopQ&A.jsp?id=<%=id%>">
 							Q&A
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/notice">
+						<a href="EShopNotice.jsp?id=<%=id%>">
 							공지사항
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/terms">
+						<a href="EShopTerm.jsp?id=<%=id%>">
 							이용약관
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/privacy">
+						<a href="EShopPrivacy.jsp?id=<%=id%>">
 							개인정보
 						</a>
 					</div>
@@ -283,17 +281,17 @@
 		<div class="qmenu">
 			<span>QUICK MENU</span>
 			<div class="m1">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopMyPage.jsp?id=<%=id%>">
 					<span>마이페이지</span>
 				</a>
 			</div>
 			<div class="m2">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopCart.jsp?id=<%=id%>">
 					<span>장바구니</span>
 				</a>
 			</div>
 			<div class="m3">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopWishList.jsp?id=<%=id%>">
 					<span>찜한상품</span>
 				</a>
 			</div>
@@ -486,7 +484,7 @@
 										</div>
 									</div>
 									<div class="br10"></div>
-									<form action="EShopBuyCheck.jsp">
+									<form action="EShopBuyCheckP2.jsp">
 									<input type="hidden" name="id" value="<%=id %>"/>
 									<%
 									for(int i=0; i<=goodsId.length-1; i++) {
@@ -552,14 +550,14 @@
 										<tr>
 											<th>우편번호</th>
 											<td>
-												<input class="postBox in" type="text" name="oPosNum" value="<%=buyInfoDto.getPostalNum() %>"/>
-												<a href=""><img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_zip.gif"/></a>
+												<input id="postal_code" class="postBox in" type="text" name="oPosNum" value="<%=buyInfoDto.getPostalNum() %>"/>
+												<button type="button" id="address_kakao"><img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_zip.gif"/></button>
 											</td>
 										</tr>
 										<tr>
 											<th>주소</th>
 											<td>
-												<input class="in" type="text" name="oAddr1" readonly="readonly" value="<%=buyInfoDto.getAddress()%>"/>
+												<input id="address" class="in" type="text" name="oAddr1" readonly="readonly" value="<%=buyInfoDto.getAddress()%>"/>
 												<br/>
 												<input class="in" type="text" name="oAddr2"/>
 											</td>

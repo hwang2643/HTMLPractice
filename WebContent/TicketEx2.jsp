@@ -45,148 +45,117 @@ pageEncoding="UTF-8"%>
 	<title>Insert title here</title>										
 	<link rel="stylesheet" href="Ticket.css">	
 	<script src="js/jquery-3.7.0.min.js"></script>								
-	<script>		
-		
-		function canvasMain(){									
-			let canvas = document.getElementById("canvas");	
-			let tooltip = document.getElementById("cursor");
-			let canvasDraw = document.getElementById("canvasDraw");
-			let h1 = document.querySelector(".h1");
-			let h2 = document.querySelector(".h2");
-			let ctx = canvas.getContext("2d");								
-			let img = new Image();								
-			img.src = "https://image.toast.com/aaaaab/ticketlink/TKL_CONCERT/fcseoul_2023_area_0414.png?2048x2048";								
-			img.onload = function() {								
-				ctx.drawImage(img, 65, 30, 550, 550);							
-			}								
-// 			canvas.onclick = function(event) {								
-// 				const x1 = event.clientX - ctx.canvas.offsetLeft;							
-// 				const y1 = event.clientY - ctx.canvas.offsetTop;							
-// 				alert(x1+"랑"+ y1);							
-// 			}								
-			this.canvas.onmousemove = function(event){								
-				const x = event.clientX - ctx.canvas.offsetLeft;							
-				const y = event.clientY - ctx.canvas.offsetTop;							
-											
-				if((x>=238 && x<=282) && (y>=318 && 370>=y)){							
-					tooltip.textContent = "동측G구역 \n [동측지정석] 0석";						
-					document.addEventListener("mousemove", (e) => {									
-						const mouseX = e.clientX;								
-						const mouseY = e.clientY;								
-						tooltip.style.left = mouseX + 'px';								
-						tooltip.style.top = mouseY + 'px';								
-						tooltip.style.display = "block";				
-						document.onclick = function(event) {
-							canvas.style.display = "none";
-							canvasDraw.style.display = "block";
-							h1.style.display = "none";
-							h2.style.display = "block";
-							tooltip.style.display = "none";
-							document.addEventListener("mousemove", (e) => {
-								tooltip.style.display = 'none';
-							});
-						}
-					});		
-				}else {							
-					document.addEventListener("mousemove", (e) => {						
-						tooltip.style.display = "none";
-						document.onclick = function(event) {
-							alert("준비중 입니다.");
-						}
-					});						
-				}								
-			}										
-		}									
-											
-											
-		function draw() {	
-			let jArr = <%=jsonArray.toJSONString()%>;
-			let canvasDraw = document.getElementById("canvasDraw");	
-			let canvas = document.getElementById("canvas");	
-			let tooltip2 = document.getElementById("cursor2");
-			let h1 = document.querySelector(".h1");
-			let h2 = document.querySelector(".h2");
-			let ctx = canvasDraw.getContext("2d");								
-			for(let i=220; i<458; i+=14) {								
-				for(let j=150; j<458; j+=14){							
-					ctx.fillStyle = "#e0e0e0";						
-					ctx.fillRect(i, j, 10, 10);						
-				}							
-			}								
-			ctx.clearRect(290, 150, 98, 56);								
-			ctx.fillRect(304, 124, 66, 64);
-			
-			let clickX;
-			let clickY;
-			let clickArr = [];
-			let n = 0;
-			
-			this.canvasDraw.onmousemove = function(event){								
-				const x = event.clientX - ctx.canvas.offsetLeft;							
-				const y = event.clientY - ctx.canvas.offsetTop;
-			
-				for(let i=0; i<=jArr.length; i++){
-					if((jArr[i].x_start<=x && jArr[i].x_end>=x) && (jArr[i].y_start<=y && jArr[i].y_end>=y)) {
-						tooltip2.style.left = x + 'px';								
-						tooltip2.style.top = y + 'px';								
-						tooltip2.textContent = "동측G구역 [동측지정석] "+(i+1)+"번";
-						tooltip2.style.display = "block";
-						this.onclick = function(event) {
-							n++;
-							let rectX = jArr[i].x_start - 20;
-							let rectY = jArr[i].y_start - 173;
-							clickX = jArr[i].x_start;
-							clickY = jArr[i].y_start;
-							for(let i=0; i<=jArr.length; i++) {
-								clickArr[i] = [clickX, clickY];
-							}
-							ctx.fillStyle = "red";
-							ctx.fillRect(rectX, rectY, 10, 10);
-							if(n == 3) {
-								alert(clickArr[0] + clickArr[1] + clickArr[2]);
-							}
-							this.onclick = function(event) {
-								for(let j=0; j<=jArr.lenght; j++) {
-									if([clickX, clickY] == clickArr[j]) {
-										ctx.fillStyle = "#e0e0e0";
-										ctx.fillRect(rectX, rectY, 10, 10);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			this.canvasDraw.onmouseout = function(event) {
-				const x = event.clientX - ctx.canvas.offsetLeft;
-				const y = event.clientY - ctx.canvas.offsetTop;
-				for(let i=0; i<=jArr.length; i++){
-					if((jArr[i].x_start<=x || jArr[i].x_end>=x) && (jArr[i].y_start<=y || jArr[i].y_end>=y)) {
-						tooltip2.style.left = x + 'px';								
-						tooltip2.style.top = y + 'px';								
-						tooltip2.style.display = "none";
-					}
-				}
-			}
-						
-// 			let back = document.getElementById("btn_back");
-// 			back.onclick = function(event) {
-// 				canvasDraw.style.display = "none";
-// 				h2.style.display = "none";
-// 				canvas.style.display = "block";
-// 				h1.style.display = "block";
-// 			}
-			
-// 			canvasDraw.onclick = function(event){								
-// 				const x1 = event.clientX - ctx.canvas.offsetLeft;										
-// 				const y1 = event.clientY - ctx.canvas.offsetTop;										
-// 				alert(x1+"랑"+ y1);							
-// 			}								
-		}	
-		
-	</script>										
+	<script>                
+            document.addEventListener("DOMContentLoaded", function() {
+            const canvas = document.getElementById("canvas");
+            const tooltip = document.getElementById("cursor");
+            const canvasDraw = document.getElementById("canvasDraw");
+            const h1 = document.querySelector(".h1");
+            const h2 = document.querySelector(".h2");
+            const ctx = canvas.getContext("2d");
+            const ctxDraw = canvasDraw.getContext("2d");
+
+            const img = new Image();
+            img.src =
+              "https://image.toast.com/aaaaab/ticketlink/TKL_CONCERT/fcseoul_2023_area_0414.png?2048x2048";
+            img.onload = function() {
+              ctx.drawImage(img, 65, 30, 550, 550);
+            };
+
+            canvas.onmousemove = function(event) {
+              const x = event.clientX - canvas.offsetLeft;
+              const y = event.clientY - canvas.offsetTop;
+
+              if (x >= 238 && x <= 282 && y >= 318 && y <= 370) {
+                tooltip.textContent = "동측G구역 \n [동측지정석] 0석";
+                tooltip.style.left = event.clientX + "px";
+                tooltip.style.top = event.clientY + "px";
+                tooltip.style.display = "block";
+
+                document.onclick = function(event) {
+                  canvas.style.display = "none";
+                  canvasDraw.style.display = "block";
+                  h1.style.display = "none";
+                  h2.style.display = "block";
+                  tooltip.style.display = "none";
+                };
+              } else {
+                tooltip.style.display = "none";
+
+                document.onclick = function(event) {
+                  alert("준비중 입니다.");
+                };
+              }
+            };
+
+            for (let i = 220; i < 458; i += 14) {
+              for (let j = 150; j < 458; j += 14) {
+                ctxDraw.fillStyle = "#e0e0e0";
+                ctxDraw.fillRect(i, j, 10, 10);
+              }
+            }
+
+            ctxDraw.clearRect(290, 150, 98, 56);
+            ctxDraw.fillRect(304, 124, 66, 64);
+
+            let jArr = <%=jsonArray.toJSONString()%>;
+            let clickArr = [];
+
+            canvasDraw.onmousemove = function(event) {
+              const x = event.clientX - canvasDraw.offsetLeft;
+              const y = event.clientY - canvasDraw.offsetTop;
+              let tooltipText = "";
+
+              for (let i = 0; i < jArr.length; i++) {
+                const region = jArr[i];
+                if (
+                  x >= region.x_start &&
+                  x <= region.x_end &&
+                  y >= region.y_start &&
+                  y <= region.y_end
+                ) {
+                  tooltipText = `동측G구역 [동측지정석] `+(i+1)+`번`;
+                  tooltip.style.left = event.clientX + "px";
+                  tooltip.style.top = event.clientY + "px";
+                  tooltip.textContent = tooltipText;
+                  tooltip.style.display = "block";
+
+                  canvasDraw.onclick = function(event) {
+                    const rectX = region.x_start - 20;
+                    const rectY = region.y_start - 173;
+                    const clickX = region.x_start;
+                    const clickY = region.y_start;
+
+                    clickArr.push([clickX, clickY]);
+
+                    ctxDraw.fillStyle = "red";
+                    ctxDraw.fillRect(rectX, rectY, 10, 10);
+
+                    canvasDraw.onclick = function(event) {
+                      for (let j = 0; j < clickArr.length; j++) {
+                        if (
+                          clickX === clickArr[j][0] &&
+                          clickY === clickArr[j][1]
+                        ) {
+                          ctxDraw.fillStyle = "#e0e0e0";
+                          ctxDraw.fillRect(rectX, rectY, 10, 10);
+                          clickArr.splice(j, 1);
+                          break;
+                        }
+                      }
+                    };
+                  };
+                  break;
+                }
+              }
+            };
+            canvasDraw.onmouseout = function() {
+              tooltip.style.display = "none";
+            };
+          });
+        </script>									
 </head>											
-<body onload="canvasMain(); draw();">											
+<body>											
 	<div id="wrap_reserve">										
 		<div id="header">									
 			<div class="reserve_title">								

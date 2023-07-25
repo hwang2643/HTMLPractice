@@ -1,55 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="dto.EShopDetailDto"%>
+<%@ page import="dao.EShopDetailDao"%>
 <%@ page import="java.sql.*"%>
 
 <%
 	String id = "";
 	int goodsId = 0;
+	int pageNum = 0;
 	try{
 		goodsId = Integer.parseInt(request.getParameter("goodsId"));
 		id = request.getParameter("id");
+		pageNum = Integer.parseInt(request.getParameter("page"));
+		if(pageNum <= 0) {
+			pageNum = 1;
+		}
 	} catch(Exception e) {
-		id = "";
+		pageNum = 1;
 	}
+	int endNum = pageNum * 4;
+	int startNum = endNum - 3;
+	int count = 0;
 %>
 <%
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String dbId = "project";
-	String dbPw = "p1234";
-%>
-<%
-	Class.forName(driver);
-	Connection conn = DriverManager.getConnection(url, dbId, dbPw);
-	
-	String sql = " SELECT g1.*, g2.*, g3.*" +
-				 " FROM goods g1, goods_img g2, goods_size g3" +
-				 " WHERE g1.goods_id = g2.goods_id AND g1.goods_id=g3.goods_id AND g1.goods_id=?";
-	PreparedStatement pstmt = conn.prepareStatement(sql);
-	pstmt.setInt(1, goodsId);
-	
-	String goodsImg = "";
-	String goodsName = "";
-	int goodsPrice = 0;
-	String img = "";
-	String newC = "";
-	String best = "";
-	String sale = "";
-	String goodsSize1 = "";
-	int inventory1 = 0;
-	ResultSet rs = pstmt.executeQuery();
-	if(rs.next()) {
-		goodsImg = rs.getString("goods_img");
-		goodsName = rs.getString("goods_name");
-		goodsPrice = rs.getInt("price");
-		img = rs.getString("img");
-		newC = rs.getString("new");
-		best = rs.getString("best");
-		sale = rs.getString("sale");
-		goodsSize1 = rs.getString("goods_size");
-		inventory1 = rs.getInt("inventory");
-		
-	}
+	EShopDetailDao goodsDetailDao = new EShopDetailDao();
+	EShopDetailDto goodsDetail = goodsDetailDao.goodsDetail(goodsId);
+	ArrayList<EShopDetailDto> sizeInvenList = goodsDetailDao.goodsSizeInventory(goodsId);
+	ArrayList<EShopDetailDto> goodsQRList = goodsDetailDao.goodsQAReview(goodsId, startNum, endNum);
+	count = goodsDetailDao.count(goodsId);
 %>
 <!DOCTYPE html>
 <html>
@@ -80,7 +59,15 @@
 					alert("사이즈를 선택해주세요.");
 					return false;
 				}
-			})
+			});
+			$(".buy_btn").click(function(){
+				let size = $("#size_sel option:selected").val();
+				if(size == "") {
+					alert("사이즈를 선택해주세요.");
+					return false;
+				}
+			});
+			
 			
 	  	});
 		function openBtn() {
@@ -133,6 +120,15 @@
 			$("#t1").click(function(){
 				let lo = $(this).parent().find(".tab_on").offset();
 				$("html, body").animate({scrollTop : lo.top}, 500);
+			});
+			
+			$(".cart_btn").click(function(){
+				let qty = $("#size_sel option:selected").text();
+				qty = qty.split(" ");
+				if(qty[3] <= '0') {
+					alert("재고수량이 없습니다.");
+					return false;
+				}
 			});
 			
 		});
@@ -279,27 +275,27 @@
 						<span>고객센터</span>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/faqList">
+						<a href="EShopFAQ.jsp?id=<%=id%>">
 							FAQ
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/qnaList">
+						<a href="EShopQ&A.jsp?id=<%=id%>">
 							Q&A
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/notice">
+						<a href="EShopNotice.jsp?id=<%=id%>">
 							공지사항
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/terms">
+						<a href="EShopTerm.jsp?id=<%=id%>">
 							이용약관
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/privacy">
+						<a href="EShopPrivacy.jsp?id=<%=id%>">
 							개인정보
 						</a>
 					</div>
@@ -317,17 +313,17 @@
 		<div class="qmenu">
 			<span>QUICK MENU</span>
 			<div class="m1">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopMyPage.jsp?id=<%=id%>">
 					<span>마이페이지</span>
 				</a>
 			</div>
 			<div class="m2">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopCart.jsp?id=<%=id%>">
 					<span>장바구니</span>
 				</a>
 			</div>
 			<div class="m3">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopWishList.jsp?id=<%=id%>">
 					<span>찜한상품</span>
 				</a>
 			</div>
@@ -351,7 +347,7 @@
 				<div>
 					<div class="prd_img_wrap fl">
 						<div class="prd_img">
-							<img src="<%=goodsImg%>"/>
+							<img src="<%=goodsDetail.getGoodsImg()%>"/>
 						</div>
 						<div>
 								<img class="detail_btn" src="https://www.fcseoul.com/resources/shop/_img/btn/zoom.gif"/>
@@ -363,14 +359,14 @@
 							<tbody>
 								<tr>
 									<td colspan="2" class="prd_info_tit">
-										<%=goodsName %>
-										<img src="<%=newC%>" onerror="this.style.display='none'"/>
-										<img src="<%=best%>" onerror="this.style.display='none'"/>
+										<%=goodsDetail.getGoodsName() %>
+										<img src="<%=goodsDetail.getNewC()%>" onerror="this.style.display='none'"/>
+										<img src="<%=goodsDetail.getBest()%>" onerror="this.style.display='none'"/>
 									</td>
 								</tr>
 								<tr class="prd_info_r1">
 									<td class="prd_info_c1">판매가격</td>
-									<td id="unit_price" class="prd_info_c2 price"><%=goodsPrice %> 원</td>
+									<td id="unit_price" class="prd_info_c2 price"><%=goodsDetail.getGoodsPrice() %> 원</td>
 								</tr>
 								<tr class="prd_info_r1">
 									<td class="prd_info_c1">적립 포인트</td>
@@ -405,20 +401,13 @@
 <!-- 										<input type="hidden" name="goodsIdArr" value=""/> -->
 										<select id="size_sel" name="goodsSize" class="size_sel">
 											<option value="">선택해주세요</option>
-											<option value="<%=goodsSize1 %>"><%=goodsSize1 %> (재고수량 <%=inventory1 %>개)</option>
+<%-- 											<option value="<%=goodsDetail.getGoodsSize1() %>"><%=goodsDetail.getGoodsSize1() %> (재고수량 <%=goodsDetail.getInventory1() %>개)</option> --%>
 											<%
-// 												int n = 1;
-												while(rs.next()) {
-													String goodsSize = rs.getString("goods_size");
-													int inventory = rs.getInt("inventory");
-// 													n++;
+												for(EShopDetailDto siDto : sizeInvenList) {
 											%>
-											<option value="<%=goodsSize %>"><%=goodsSize %> (재고수량 <%=inventory %>개)</option>
+											<option class="inven_sel" value="<%=siDto.getGoodsSize1() %>"><%=siDto.getGoodsSize1()%> (재고수량  <%=siDto.getInventory1()%> 개)</option>
 											<%
 												}
-												rs.close();
-												pstmt.close();
-												conn.close();
 											%>
 										</select>
 									</td>
@@ -434,7 +423,7 @@
 								</tr>
 								<tr class="prd_info_r2">
 									<td class="prd_info_c1">금액</td>
-									<td id="price" class="prd_info_c2"><%=goodsPrice %> 원</td>
+									<td id="price" class="prd_info_c2"><%=goodsDetail.getGoodsPrice() %> 원</td>
 								</tr>
 							</tbody>
 						</table>
@@ -443,7 +432,7 @@
 								<img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_cart.gif" class="prd_btn"/>
 							</button>
 <%-- 							<input type="hidden" name="buyPrdId" value="<%=goodsId %>"/> --%>
-							<button type="submit" name="btnType" value="buy">
+							<button type="submit" name="btnType" value="buy" class="buy_btn">
 								<img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_buy.gif" class="prd_btn"/>
 							</button>
 							<button onclick="action='EShopUpdateAction.jsp'" type="submit" name="btnType" value="wishList">
@@ -460,7 +449,7 @@
 							<a><img src="https://www.fcseoul.com/resources/shop/_img/product/prd_tab5.gif" class="" id="t5"/></a>
 						</div>
 						<div class="prd_info_img">
-							<img src="<%=img%>"/>
+							<img src="<%=goodsDetail.getImg()%>"/>
 						</div>
 						<div class="prd_tag">
 							<p># 유니폼 # 40주년 # 홈 # 어웨이 # 필드</p>
@@ -596,7 +585,7 @@
 						</div>
 						<div class="prd_rqa_box">
 							<div class="rqa_upper">
-								총 <span>125개</span>의 글이 등록되어 있습니다.
+								총 <span><%=count %>개</span>의 글이 등록되어 있습니다.
 							</div>
 							<table width="100%">
 								<colgroup>
@@ -613,148 +602,174 @@
 									<th>작성자</th>
 									<th>작성일</th>
 								</tr>
-								<tr class="rqa" id="125">
-									<td class="no">125</td>
-									<td class="rqa_tit">
-										<img src="https://www.fcseoul.com/resources/shop/_img/icon/icon_qna.gif"/>
-										 홈,어웨이 수량 재입고
-									</td>
-									<td>
-										<img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_complete.gif" class="t1" alt="답변완료">
-									</td>
-									<td>최정</td>
-									<td class="rqa_date">2023-06-19</td>
-								</tr>
-								<tr class="rqa_content_wrap">
-									<td colspan="5" id="view_125" class="rqa_content_box off">
-										<table>
-											<tr>
-												<td class="rqa_content">혹시 홈,어웨이 사이즈별로 온라인에 언제 재입고 되나요?</td>
-											</tr>
-										</table>
-										<table class="answer_box">
-											<tr>
-												<td class="answerL">
-													쇼핑몰운영자6	
-												</td>
-												<td class="answerR">
-													<p>안녕하세요 FC서울 팬파크 입니다.</p>
-													<br/>
-													<p>홈 유니폼은 7월 초 쯤으로 예정되어 있고,</p>
-													<p>어웨이 유니폼은 재입고 해드렸습니다.</p>
-													<br/>
-													<p>감사합니다.</p>
-												</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-								<tr class="rqa" id="124">
-									<td class="no">124</td>
-									<td class="rqa_tit">
-										<img src="https://www.fcseoul.com/resources/shop/_img/icon/icon_review.gif"/>
-										 오프라인
-									</td>
-									<td>
-									</td>
-									<td>오수민</td>
-									<td class="rqa_date">2023-06-19</td>
-								</tr>
-								<tr class="rqa_content_wrap">
-									<td colspan="5" id="view_124" class="rqa_content_box off">
-										<table>
-											<tr>
-												<td class="rqa_content">오프라인에 90 95 100 105 사이즈 잇나용…“?</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-								<tr class="rqa" id="123">
-									<td class="no">123</td>
-									<td class="rqa_tit">
-										<img src="https://www.fcseoul.com/resources/shop/_img/icon/icon_qna.gif"/>
-										 오프라인 재고
-									</td>
-									<td>
-										<img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_complete.gif" class="t1" alt="답변완료">
-									</td>
-									<td>조은주</td>
-									<td class="rqa_date">2023-06-18</td>
-								</tr>
-								<tr class="rqa_content_wrap">
-									<td colspan="5" id="view_123" class="rqa_content_box off">
-										<table>
-											<tr>
-												<td class="rqa_content">혹시 팬파크에는 100사이즈 재고 있나요?</td>
-											</tr>
-										</table>
-										<table class="answer_box">
-											<tr>
-												<td class="answerL">
-													쇼핑몰운영자6	
-												</td>
-												<td class="answerR">
-													<p>안녕하세요 FC서울 팬파크 입니다.</p>
-													<br/>
-													<p>현재 홈 유니폼 100사이즈는 품절 상태 입니다,,,</p>
-													<br/>
-													<p>감사합니다.</p>
-												</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-								<tr class="rqa" id="122">
-									<td class="no">122</td>
-									<td class="rqa_tit">
-										<img src="https://www.fcseoul.com/resources/shop/_img/icon/icon_review.gif"/>
-										오프라인 재고
-									</td>
-									<td>
-									</td>
-									<td>조은주</td>
-									<td class="rqa_date">2023-06-17</td>
-								</tr>
-								<tr class="rqa_content_wrap">
-									<td colspan="5" id="view_122" class="rqa_content_box off">
-										<table>
-											<tr>
-												<td class="rqa_content">혹시 팬파크에 100재고 있나요?</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
+								<%
+								for(EShopDetailDto qrDto : goodsQRList) {
+									if(qrDto.getCategory().equals("Q&A")) {
+									%>
+										<tr class="rqa" id="<%=qrDto.getBno()%>">
+											<td class="no"><%=qrDto.getBno()%></td>
+											<td class="rqa_tit">
+												<img src="https://www.fcseoul.com/resources/shop/_img/icon/icon_qna.gif"/>
+												 <%=qrDto.getTitle()%>
+											</td>
+											<td>
+												<img src="<%=qrDto.getAnswer()%>" class="t1" alt="답변완료" onerror="this.style.display='none'">
+											</td>
+											<td><%=qrDto.getName()%></td>
+											<td class="rqa_date"><%=qrDto.getwDate()%></td>
+										</tr>
+										<tr class="rqa_content_wrap">
+											<td colspan="5" id="view_<%=qrDto.getBno()%>" class="rqa_content_box off">
+												<table>
+													<tr>
+														<td class="rqa_content"><%=qrDto.getContent()%></td>
+													</tr>
+												</table>
+												<%
+												if(qrDto.getAnswer().equals("https://www.fcseoul.com/resources/shop/_img/btn/btn_complete.gif")) {
+												%>
+													<table class="answer_box">
+														<tr>
+															<td class="answerL">
+																쇼핑몰운영자6	
+															</td>
+															<td class="answerR">
+																<%=qrDto.getaContent()%>
+															</td>
+														</tr>
+													</table>
+												<%	
+												}
+												%>
+											</td>
+										</tr>
+									<%
+									}else {
+									%>
+										<tr class="rqa" id="<%=qrDto.getBno()%>">
+											<td class="no"><%=qrDto.getBno()%></td>
+											<td class="rqa_tit">
+												<img src="https://www.fcseoul.com/resources/shop/_img/icon/icon_review.gif"/>
+												<%=qrDto.getTitle()%>
+											</td>
+											<td>
+											</td>
+											<td><%=qrDto.getName()%></td>
+											<td class="rqa_date"><%=qrDto.getwDate()%></td>
+										</tr>
+										<tr class="rqa_content_wrap">
+											<td colspan="5" id="view_<%=qrDto.getBno()%>" class="rqa_content_box off">
+												<table>
+													<tr>
+														<td class="rqa_content"><%=qrDto.getContent()%></td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									<%	
+									}
+								}
+								%>
+<!-- 								<tr class="rqa" id="123"> -->
+<!-- 									<td class="no">123</td> -->
+<!-- 									<td class="rqa_tit"> -->
+<!-- 										<img src="https://www.fcseoul.com/resources/shop/_img/icon/icon_qna.gif"/> -->
+<!-- 										 오프라인 재고 -->
+<!-- 									</td> -->
+<!-- 									<td> -->
+<!-- 										<img src="https://www.fcseoul.com/resources/shop/_img/btn/btn_complete.gif" class="t1" alt="답변완료"> -->
+<!-- 									</td> -->
+<!-- 									<td>조은주</td> -->
+<!-- 									<td class="rqa_date">2023-06-18</td> -->
+<!-- 								</tr> -->
+<!-- 								<tr class="rqa_content_wrap"> -->
+<!-- 									<td colspan="5" id="view_123" class="rqa_content_box off"> -->
+<!-- 										<table> -->
+<!-- 											<tr> -->
+<!-- 												<td class="rqa_content">혹시 팬파크에는 100사이즈 재고 있나요?</td> -->
+<!-- 											</tr> -->
+<!-- 										</table> -->
+<!-- 										<table class="answer_box"> -->
+<!-- 											<tr> -->
+<!-- 												<td class="answerL"> -->
+<!-- 													쇼핑몰운영자6	 -->
+<!-- 												</td> -->
+<!-- 												<td class="answerR"> -->
+<!-- 													<p>안녕하세요 FC서울 팬파크 입니다.</p> -->
+<!-- 													<br/> -->
+<!-- 													<p>현재 홈 유니폼 100사이즈는 품절 상태 입니다,,,</p> -->
+<!-- 													<br/> -->
+<!-- 													<p>감사합니다.</p> -->
+<!-- 												</td> -->
+<!-- 											</tr> -->
+<!-- 										</table> -->
+<!-- 									</td> -->
+<!-- 								</tr> -->
+<!-- 								<tr class="rqa" id="122"> -->
+<!-- 									<td class="no">122</td> -->
+<!-- 									<td class="rqa_tit"> -->
+<!-- 										<img src="https://www.fcseoul.com/resources/shop/_img/icon/icon_review.gif"/> -->
+<!-- 										오프라인 재고 -->
+<!-- 									</td> -->
+<!-- 									<td> -->
+<!-- 									</td> -->
+<!-- 									<td>조은주</td> -->
+<!-- 									<td class="rqa_date">2023-06-17</td> -->
+<!-- 								</tr> -->
+<!-- 								<tr class="rqa_content_wrap"> -->
+<!-- 									<td colspan="5" id="view_122" class="rqa_content_box off"> -->
+<!-- 										<table> -->
+<!-- 											<tr> -->
+<!-- 												<td class="rqa_content">혹시 팬파크에 100재고 있나요?</td> -->
+<!-- 											</tr> -->
+<!-- 										</table> -->
+<!-- 									</td> -->
+<!-- 								</tr> -->
 							</table>
 						</div>
 						<div class="page_box">
 							<div class="page_btn">
-								<a href="">
+								<a href="EShopDetail.jsp?id=<%=id %>&goodsID=<%=goodsId%>&page=1">
 									<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_prev2.gif"/>
 								</a>
-								<a href="">
+								<a href="EShopDetail.jsp?id=<%=id %>&goodsID=<%=goodsId%>&page=<%=pageNum-1%>">
 									<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_prev.gif"/>
 								</a>
 								&nbsp;&nbsp;
-								<a href="" class="pg">
-									<b style="color:#d2232a">1</b>
-								</a>
-								<a href="" class="pg">
-									2
-								</a>
-								<a href="" class="pg">
-									3
-								</a>
-								<a href="" class="pg">
-									4
-								</a>
-								<a href="" class="pg">
-									5
-								</a>
+								<%
+								for(int i=1; i<=(count/15)+1; i++) {
+									if(pageNum == i) {
+										%>
+										<a href="EShopDetail.jsp?id=<%=id %>&goodsID=<%=goodsId%>&page=<%=i %>" class="pg">
+											<b style="color:#d2232a"><%=i %></b>
+										</a>
+										<%
+									} else {
+										%>
+										<a href="EShopDetail.jsp?id=<%=id %>&goodsID=<%=goodsId%>&page=<%=i %>" class="pg">
+											<b><%=i %></b>
+										</a>
+										<%
+									}
+								}
+								%>
 								&nbsp;&nbsp;
-								<a href="">
-									<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_next.gif"/>
-								</a>
-								<a href="">
+								<%
+								if(pageNum == (count/15)+1) {
+									%>
+									<a href="EShopDetail.jsp?id=<%=id %>&goodsID=<%=goodsId%>&page=<%=count/15+1%>">
+										<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_next.gif"/>
+									</a>
+									<%
+								} else {
+									%>
+									<a href="EShopDetail.jsp?id=<%=id %>&goodsID=<%=goodsId%>&page=<%=pageNum+1%>">
+										<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_next.gif"/>
+									</a>
+									<%	
+								}
+								%>
+								<a href="EShopDetail.jsp?id=<%=id %>&goodsID=<%=goodsId%>&page=<%=count/15+1%>">
 									<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_next2.gif"/>
 								</a>
 							</div>
@@ -776,10 +791,10 @@
 				<div class="img_slider_box">
 					<div class="slider">
 						<div>
-							<img src="<%=goodsImg%>"/>
+							<img src="<%=goodsDetail.getGoodsImg()%>"/>
 						</div>
 						<div>
-							<img src="<%=goodsImg%>"/>
+							<img src="<%=goodsDetail.getGoodsImg()%>"/>
 						</div>
 					</div>
 				</div>

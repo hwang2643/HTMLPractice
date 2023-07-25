@@ -232,4 +232,22 @@ public class EShopBuyDao {
 		return true;
 	}
 	
+	public boolean paymentDelete(String id) {
+		Connection conn = null;
+		try {
+			conn = getConnection();
+			String sql = "DELETE FROM payment WHERE id=?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+			conn.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
 }

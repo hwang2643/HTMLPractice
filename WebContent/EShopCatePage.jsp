@@ -6,7 +6,6 @@
 	request.setCharacterEncoding("UTF-8");
 
 	int pageNum = 0;
-// 	String id = "";
 	String id = request.getParameter("id");
 	try{
 		pageNum = Integer.parseInt(request.getParameter("page"));
@@ -160,6 +159,7 @@
 		<div class="searchbox fl">
 			<form action="EShopCatePage.jsp" method="post">
 				<input type="hidden" name="type" value="search"/>
+				<input type="hidden" name="id" value="<%=id %>"/>
 				<input type="text" name="maintxt" id="maintxt"/>
 				<button type="submit"></button>
 			</form>
@@ -281,27 +281,27 @@
 						<span>고객센터</span>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/faqList">
+						<a href="EShopFAQ.jsp?id=<%=id%>">
 							FAQ
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/qnaList">
+						<a href="EShopQ&A.jsp?id=<%=id%>">
 							Q&A
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/notice">
+						<a href="EShopNotice.jsp?id=<%=id%>">
 							공지사항
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/terms">
+						<a href="EShopTerm.jsp?id=<%=id%>">
 							이용약관
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/privacy">
+						<a href="EShopPrivacy.jsp?id=<%=id%>">
 							개인정보
 						</a>
 					</div>
@@ -319,17 +319,17 @@
 		<div class="qmenu">
 			<span>QUICK MENU</span>
 			<div class="m1">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopMyPage.jsp?id=<%=id%>">
 					<span>마이페이지</span>
 				</a>
 			</div>
 			<div class="m2">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopCart.jsp?id=<%=id%>">
 					<span>장바구니</span>
 				</a>
 			</div>
 			<div class="m3">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopWishList.jsp?id=<%=id%>">
 					<span>찜한상품</span>
 				</a>
 			</div>
@@ -561,10 +561,10 @@
 						<div style="clear:both;"></div>
 						<div class="page_box">
 							<div class="page_btn">
-								<a href="EShopCatePage.jsp?type=<%=type%>&page=1">
+								<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type%>&page=1">
 									<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_prev2.gif"/>
 								</a>
-								<a href="EShopCatePage.jsp?type=<%=type%>&page=<%=pageNum-1%>">
+								<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type%>&page=<%=pageNum-1%>">
 									<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_prev.gif"/>
 								</a>
 								&nbsp;&nbsp;
@@ -572,13 +572,13 @@
 								for(int i=1; i<=(count/15)+1; i++) {
 									if(pageNum == i) {
 										%>
-										<a href="EShopCatePage.jsp?type=<%=type %>&page=<%=i %>" class="pg">
+										<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type %>&page=<%=i %>" class="pg">
 											<b style="color:#d2232a"><%=i %></b>
 										</a>
 										<%
 									} else {
 										%>
-										<a href="EShopCatePage.jsp?type=<%=type %>&page=<%=i %>" class="pg">
+										<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type %>&page=<%=i %>" class="pg">
 											<b><%=i %></b>
 										</a>
 										<%
@@ -589,19 +589,19 @@
 								<%
 								if(pageNum == (count/15)+1) {
 									%>
-									<a href="EShopCatePage.jsp?type=<%=type%>&page=<%=count/15+1%>">
+									<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type%>&page=<%=count/15+1%>">
 										<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_next.gif"/>
 									</a>
 									<%
 								} else {
 									%>
-									<a href="EShopCatePage.jsp?type=<%=type%>&page=<%=pageNum+1%>">
+									<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type%>&page=<%=pageNum+1%>">
 										<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_next.gif"/>
 									</a>
 									<%	
 								}
 								%>
-								<a href="EShopCatePage.jsp?type=<%=type%>&page=<%=count/15+1%>">
+								<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type%>&page=<%=count/15+1%>">
 									<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_next2.gif"/>
 								</a>
 							</div>

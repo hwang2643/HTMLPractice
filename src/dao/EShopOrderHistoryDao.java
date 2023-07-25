@@ -24,7 +24,7 @@ public class EShopOrderHistoryDao {
 		try {
 			Connection conn = getConnection();
 			
-			String sql = "SELECT * FROM order_history WHERE id=?";
+			String sql = "SELECT * FROM order_history WHERE id=? ORDER BY pay_date";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			
