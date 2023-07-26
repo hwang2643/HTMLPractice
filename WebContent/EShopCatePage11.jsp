@@ -37,90 +37,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<link rel="stylesheet" href="./EShopCateStyle.css">
-	<script src="js/jquery-3.7.0.min.js"></script>
 	<script>
-		
-// 		function cateFilter() {
-// 			$ajax({
-// 				type: "post",
-// 				url: "EShopCatePageServlet",
-// 				data: { 
-// 					"id": id, "page": pageNum, "type": type, "maintxt": maintxt, "select": val
-// 				},
-// 				datatype: "json",
-// 				success: function(data){
-// 					alert("!");
-// 					for(var i=0; i<=data.length-1; i++) {
-// 					}
-// 				},
-// 				error: function (request, status, error) {
-// 			        console.log("code: " + request.status)
-// 			        console.log("message: " + request.responseText)
-// 			        console.log("error: " + error);
-// 			    }
-// 			});
-// 		}
-		
-		$(function(){
-			$(document).ready(function(){
-				$("#priceOrderSel").change(function(){
-					let id = '<%=id%>';
-					let page = '<%=pageNum%>';
-					let type = '<%=type%>';
-					let maintxt = '<%=maintxt%>';
-					let sel = $("#priceOrderSel option:selected").val();
-					$.ajax({
-						type: "post",
-						url: "EShopCatePageServlet",
-						data: { 
-							"id": id, "page": page, "type": type, "maintxt": maintxt, "select": sel
-						},
-						datatype: "json",
-						success: function(data){
-							$(".pl").html("");
-							let img;
-							let prdList;
-							for(var i=0; i<=data.length-1; i++) {
-								prdList = "<div class='prd_list'>" +
-											"<div class='prd_list_wrap' id='prdList'>" +
-												"<div class='prd_img'>" +
-													"<a href='EShopDetail.jsp?id=<%=id%>&goodsId=" + data[i].goodsId + "'>" +
-														"<img src='" + data[i].goodsImg + "'/>" +
-										  			"</a>" +
-										  		"</div>" +
-										  		"<div class='goods_name'>" +
-										  			"<a href='EShopDetail.jsp?id=<%=id%>&goodsId=" + data[i].goodsId + "'>" +
-										  				data[i].goodsName +
-										  			"</a>" +
-										  		"</div>" +
-										  		"<div class='goods_price'>" +
-										  			data[i].price + " 원" +
-										  		"</div>" +
-										  		"<div class='goods_type'>" +
-										  			"<img src='" + data[i].newP + "' onerror=\"this.style.display='none'\"/>" +
-										  			"<img src='" + data[i].bestP + "' onerror=\"this.style.display='none'\"/>" +
-										  		"</div>" +
-										  		"<div style='clear:both;'></div>" +
-										 	 "</div>" +
-										  "</div>";
-								$(".pl").append(prdList);
-							}
-						},
-						error: function (request, status, error) {
-					        console.log("code: " + request.status)
-					        console.log("message: " + request.responseText)
-					        console.log("error: " + error);
-					    }
-					});
-					
-				});
-			});
-		});
-		
 		function openBtn() {
 			let btn1 = document.getElementById("btn1");
 			let btn2 = document.getElementById("btn2");
@@ -472,6 +392,12 @@
 					</div>
 					<%
 					for(EShopCatePageDto dto : prdListBest){
+// 						String goodsImg2 = dto.getGoodsImg();
+// 						String goodsName2 = dto.getGoodsName();
+// 						int price2 = dto.getPrice();
+// 			 			String best2 = dto.getBestP();
+// 			 			String new2 = dto.getNewP();
+// 			 			int goodsId2 = dto.getGoodsId();
 					%>
 					<div class="best_box fl">
 						<div class="best_content">
@@ -504,8 +430,10 @@
 							</div>
 							<div class="filter_box_button">
 								<button type="button" id="filterBtn" onclick="openFilter();">필터</button>
-								<select id="priceOrderSel">
-									<option value="ALL">기본</option>
+								<select name="order">
+									<option value="ALL" selected="selected">기본</option>
+									<option value="NEW">신상순</option>
+									<option value="TOP">인기순</option>
 									<option value="LOW">낮은가격순</option>
 									<option value="HIGH">높은가격순</option>
 								</select>
@@ -514,28 +442,33 @@
 						</div>
 					</div>
 					<div class="type_content_box">
-					<div class="pl">
 					<%
 					for(EShopCatePageDto dto : prdList){
+						String goodsImg = dto.getGoodsImg();
+						String goodsName = dto.getGoodsName();
+						int price = dto.getPrice();
+			 			String best = dto.getBestP();
+			 			String cNew = dto.getNewP();
+			 			int goodsId = dto.getGoodsId();
 					%>
 						<div class="prd_list">
-							<div class="prd_list_wrap" id="prdList">
+							<div class="prd_list_wrap">
 								<div class="prd_img">
-									<a href="EShopDetail.jsp?id=<%=id %>&goodsId=<%=dto.getGoodsId()%>">
-										<img src="<%=dto.getGoodsImg() %>"/>
+									<a href="EShopDetail.jsp?id=<%=id %>&goodsId=<%=goodsId%>">
+										<img src="<%=goodsImg %>"/>
 									</a>
 								</div>
 								<div class="goods_name">
-									<a href="EShopDetail.jsp?id=<%=id %>&goodsId=<%=dto.getGoodsId()%>">
-										<%=dto.getGoodsName() %>
+									<a href="EShopDetail.jsp?id=<%=id %>&goodsId=<%=goodsId%>">
+										<%=goodsName %>
 									</a>
 								</div>
 								<div class="goods_price">
-									<%=dto.getPrice() %> 원 
+									<%=price %> 원 
 								</div>
 								<div class="goods_type">
-									<img src="<%=dto.getNewP()%>" onerror="this.style.display='none'"/>
-									<img src="<%=dto.getBestP()%>" onerror="this.style.display='none'"/>
+									<img src="<%=cNew%>" onerror="this.style.display='none'"/>
+									<img src="<%=best%>" onerror="this.style.display='none'"/>
 								</div>
 								<div style="clear:both;"></div>
 							</div>
@@ -543,7 +476,6 @@
 					<%
 					} 
 					%>
-					</div>
 						<div style="clear:both;"></div>
 						<div class="bottom_line">
 						</div>

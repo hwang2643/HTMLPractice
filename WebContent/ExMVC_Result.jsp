@@ -7,6 +7,6 @@
 	<title>Insert title here</title>
 </head>
 <body>
-	<h1>${num1}과${num2}의 합은 ${result}입니다.</h1>
+	<h1>${num1}과${num2}의 ${op}한 결과 ${result}입니다.</h1>
 </body>
 </html>

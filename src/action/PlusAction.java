@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class CalculateAction implements Action {
+public class PlusAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -18,6 +18,7 @@ public class CalculateAction implements Action {
 		request.setAttribute("num1", num1);
 		request.setAttribute("num2", num2);
 		request.setAttribute("result", result);
+		request.setAttribute("op", "더하기");
 		
 		RequestDispatcher rd = request.getRequestDispatcher("Controller?command=result");
 		rd.forward(request, response);

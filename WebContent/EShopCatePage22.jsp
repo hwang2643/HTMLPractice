@@ -1,31 +1,110 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="dto.EShopCatePageDto"%>
-<%@ page import="dao.EShopCatePageDao"%>
 <%@ page import="java.sql.*"%>
 
 <%
+	request.setCharacterEncoding("UTF-8");
+
 	int pageNum = 0;
+	String id = request.getParameter("id");
 	try{
 		pageNum = Integer.parseInt(request.getParameter("page"));
-	} catch(NumberFormatException e) {
-		pageNum = 1;
-		if(pageNum == 0) {
+		if(pageNum <= 0) {
 			pageNum = 1;
 		}
+	} catch(NumberFormatException e) {
+		pageNum = 1;
 	}
 	int endNum = pageNum * 15;
 	int startNum = endNum - 14;
-	int count = 30;
 	
-	request.setCharacterEncoding("UTF-8");
 	String type = request.getParameter("type");
+	String maintxt = request.getParameter("maintxt");
 %>
 <%
-	EShopCatePageDao catePageDao = new EShopCatePageDao();
-	ArrayList<EShopCatePageDto> prdList = catePageDao.EShopCateMainPrd(type, startNum, endNum);
-	ArrayList<EShopCatePageDto> prdListBest = catePageDao.EShopCateBestPrd(type, startNum, endNum);
+	String driver = "oracle.jdbc.driver.OracleDriver";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	String dbId = "project";
+	String dbPw = "p1234";
+%>
+<%
+	
+	Class.forName(driver);
+	Connection conn = DriverManager.getConnection(url, dbId, dbPw);
+	
+	String sql = "";
+	String sql2 = "";
+	String sql3 = "";
+	if(type.equals("new")) {
+		sql = " SELECT g2.*"
+			+ " FROM(SELECT rownum rnum, g1.*"
+			+ " FROM(SELECT * FROM goods WHERE new='https://www.fcseoul.com/resources/shop/_img/icon/icon_new.gif' ORDER BY goods_id) g1) g2"
+			+ " WHERE g2.rnum>=? AND g2.rnum<=?";
+		sql2 = " SELECT * FROM (SELECT * FROM goods WHERE new='https://www.fcseoul.com/resources/shop/_img/icon/icon_new.gif' AND best='https://www.fcseoul.com/resources/shop/_img/icon/icon_best.gif' ORDER BY goods_id) WHERE rownum<=4";
+		sql3 = " SELECT count(*) FROM goods WHERE new='https://www.fcseoul.com/resources/shop/_img/icon/icon_new.gif'";
+	} else if(type.equals("sale")) {
+		sql = " SELECT g2.*"
+			+ " FROM(SELECT rownum rnum, g1.*"
+			+ " FROM(SELECT * FROM goods WHERE sale='https://www.fcseoul.com/resources/shop/_img/icon/icon_sale.gif' ORDER BY goods_id) g1) g2"
+			+ " WHERE g2.rnum>=? AND g2.rnum<=?";
+		sql2 = " SELECT * FROM (SELECT * FROM goods WHERE sale='https://www.fcseoul.com/resources/shop/_img/icon/icon_sale.gif' AND best='https://www.fcseoul.com/resources/shop/_img/icon/icon_best.gif' ORDER BY goods_id) WHERE rownum<=4";
+		sql3 = " SELECT count(*) FROM goods WHERE sale='https://www.fcseoul.com/resources/shop/_img/icon/icon_sale.gif'";
+	} else if(type.equals("전체상품")) {
+		sql = " SELECT g2.*"
+			+ " FROM(SELECT rownum rnum, g1.*"
+			+ " FROM(SELECT * FROM goods ORDER BY goods_id) g1) g2"
+			+ " WHERE g2.rnum>=? AND g2.rnum<=?";
+		sql2 = " SELECT * FROM (SELECT * FROM goods WHERE best='https://www.fcseoul.com/resources/shop/_img/icon/icon_best.gif' ORDER BY goods_id) WHERE rownum<=4";
+		sql3 = " SELECT count(*) FROM goods";
+	} else if(type.equals("search")) {
+		sql = " SELECT g2.*"
+			+ " FROM(SELECT rownum rnum, g1.*"
+			+ " FROM(SELECT * FROM goods WHERE goods_name LIKE ? ORDER BY goods_id) g1) g2"
+			+ " WHERE g2.rnum>=? AND g2.rnum<=?";
+		sql2 = " SELECT * FROM (SELECT * FROM goods WHERE goods_name LIKE ? AND best='https://www.fcseoul.com/resources/shop/_img/icon/icon_best.gif' ORDER BY goods_id) WHERE rownum<=4";
+		sql3 = " SELECT count(*) FROM goods WHERE goods_name LIKE ?";
+	} else {
+		sql = " SELECT g2.*"
+			+ " FROM(SELECT rownum rnum, g1.*"
+			+ " FROM(SELECT * FROM goods WHERE type=? ORDER BY goods_id) g1) g2"
+			+ " WHERE g2.rnum>=? AND g2.rnum<=?";
+		sql2 = " SELECT * FROM (SELECT * FROM goods WHERE type=? AND best='https://www.fcseoul.com/resources/shop/_img/icon/icon_best.gif' ORDER BY goods_id) WHERE rownum<=4";
+		sql3 = " SELECT count(*) FROM goods WHERE type=?";
+	}
+	
+	
+	PreparedStatement pstmt = conn.prepareStatement(sql);
+	PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+	PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+	
+	if(type.equals("new") || type.equals("sale") || type.equals("전체상품")) {
+		pstmt.setInt(1, startNum);
+		pstmt.setInt(2, endNum);
+	} else if(type.equals("search")) {
+		pstmt.setString(1, "%"+maintxt+"%");
+		pstmt.setInt(2, startNum);
+		pstmt.setInt(3, endNum);
+		pstmt2.setString(1, "%"+maintxt+"%");
+		pstmt3.setString(1, "%"+maintxt+"%");
+	} else {
+		pstmt.setString(1, type);
+		pstmt.setInt(2, startNum);
+		pstmt.setInt(3, endNum);
+		pstmt2.setString(1, type);
+		pstmt3.setString(1, type);
+	}
+	
+	
+	ResultSet rs = pstmt.executeQuery();
+	ResultSet rs2 = pstmt2.executeQuery();
+	ResultSet rs3 = pstmt3.executeQuery();
+	
+	int count = 0;
+	if(rs3.next()) {
+		count = rs3.getInt("count(*)");
+	}
+	rs3.close();
+	pstmt3.close();
 %>
 <!DOCTYPE html>
 <html>
@@ -78,40 +157,44 @@
 			<img src="https://www.fcseoul.com/resources/shop/_img/renew/logo.png"/>
 		</div>
 		<div class="searchbox fl">
-			<input type="text" name="maintxt" id="maintxt" onfocus="clearTxt();" onkeydown="enterSearch();"/>
-			<button type="button" onclick="searchLeft();"></button>
+			<form action="EShopCatePage.jsp" method="post">
+				<input type="hidden" name="type" value="search"/>
+				<input type="hidden" name="id" value="<%=id %>"/>
+				<input type="text" name="maintxt" id="maintxt"/>
+				<button type="submit"></button>
+			</form>
 		</div>
 		<div class="topmenu fl">
 			<span>로그인</span>
-			<span>마이페이지</span>
-			<span>장바구니</span>
+			<span onclick="location.href='EShopMyPage.jsp?id=<%=id %>'">마이페이지</span>
+			<span onclick="location.href='EShopCart.jsp?id=<%=id %>'">장바구니</span>
 		</div>
 		<div style="clear:both;"></div>
 	</div>
 	<div id="categorybackground">
 		<div class="maincategory">
-			<div class="category fl" onclick="location.href='EShopCatePage.jsp?type=new'">
+			<div class="category fl" onclick="location.href='EShopCatePage.jsp?id=<%=id%>&type=new'">
 				<span>NEW</span>
 			</div>
-			<div class="category fl" onclick="location.href='EShopCatePage.jsp?type=유니폼'">
+			<div class="category fl" onclick="location.href='EShopCatePage.jsp?id=<%=id%>&type=유니폼'">
 				<span>유니폼</span>
 			</div>
-			<div class="category fl" onclick="location.href='EShopCatePage.jsp?type=트레이닝웨어'">
+			<div class="category fl" onclick="location.href='EShopCatePage.jsp?id=<%=id%>&type=트레이닝웨어'">
 				<span>트레이닝웨어</span>
 			</div>
-			<div class="category fl" onclick="location.href='EShopCatePage.jsp?type=패션'">
+			<div class="category fl" onclick="location.href='EShopCatePage.jsp?id=<%=id%>&type=패션'">
 				<span>패션</span>
 			</div>
-			<div class="category fl" onclick="location.href='EShopCatePage.jsp?type=응원용품'">
+			<div class="category fl" onclick="location.href='EShopCatePage.jsp?id=<%=id%>&type=응원용품'">
 				<span>응원용품</span>
 			</div>
-			<div class="category fl" onclick="location.href='EShopCatePage.jsp?type=기념품'">
+			<div class="category fl" onclick="location.href='EShopCatePage.jsp?id=<%=id%>&type=기념품'">
 				<span>기념품</span>
 			</div>
-			<div class="category fl" onclick="location.href='EShopCatePage.jsp?type=어린이'">
+			<div class="category fl" onclick="location.href='EShopCatePage.jsp?id=<%=id%>&type=어린이'">
 				<span>어린이</span>
 			</div>
-			<div class="category fl" onclick="location.href='EShopCatePage.jsp?type=sale'">
+			<div class="category fl" onclick="location.href='EShopCatePage.jsp?id=<%=id%>&type=sale'">
 				<span>SALE</span>
 			</div>
 			<div id="btn2" class="category fl view_all">
@@ -128,47 +211,47 @@
 						<span>카테고리</span>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=NEW&list_type=M">
+						<a href="EShopCatePage.jsp?id=<%=id %>&type=new">
 							NEW
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=UNI&list_type=M">
+						<a href="EShopCatePage.jsp?id=<%=id %>&type=유니폼">
 							유니폼
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=TRA&list_type=M">
+						<a href="EShopCatePage.jsp?id=<%=id %>&type=트레이닝웨어">
 							트레이닝 웨어
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=TSH&list_type=M">
+						<a href="EShopCatePage.jsp?id=<%=id %>&type=패션">
 							패션
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=SCA&list_type=M">
+						<a href="EShopCatePage.jsp?id=<%=id %>&type=응원용품">
 							응원용품
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=FAN&list_type=M">
+						<a href="EShopCatePage.jsp?id=<%=id %>&type=기념품">
 							기념품
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=ACC&list_type=M">
+						<a href="EShopCatePage.jsp?id=<%=id %>&type=어린이">
 							어린이
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=SALE&list_type=M">
+						<a href="EShopCatePage.jsp?id=<%=id %>&type=sale">
 							SALE
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/productList?menu_b=ALL&list_type=M">
+						<a href="EShopCatePage.jsp?id=<%=id %>&type=전체상품">
 							전체상품보기
 						</a>
 					</div>
@@ -178,17 +261,17 @@
 						<span>마이페이지</span>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/orderList">
+						<a href="EShopOrderHistory.jsp?id=<%=id%>">
 							나의주문이력
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/cart">
+						<a href="EShopCart.jsp?id=<%=id%>">
 							장바구니
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/wishList">
+						<a href="EShopWishList.jsp?id=<%=id%>">
 							찜한상품
 						</a>
 					</div>
@@ -198,27 +281,27 @@
 						<span>고객센터</span>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/faqList">
+						<a href="EShopFAQ.jsp?id=<%=id%>">
 							FAQ
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/qnaList">
+						<a href="EShopQ&A.jsp?id=<%=id%>">
 							Q&A
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/notice">
+						<a href="EShopNotice.jsp?id=<%=id%>">
 							공지사항
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/terms">
+						<a href="EShopTerm.jsp?id=<%=id%>">
 							이용약관
 						</a>
 					</div>
 					<div>
-						<a href="https://www.fcseoul.com/fcshop/privacy">
+						<a href="EShopPrivacy.jsp?id=<%=id%>">
 							개인정보
 						</a>
 					</div>
@@ -236,17 +319,17 @@
 		<div class="qmenu">
 			<span>QUICK MENU</span>
 			<div class="m1">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopMyPage.jsp?id=<%=id%>">
 					<span>마이페이지</span>
 				</a>
 			</div>
 			<div class="m2">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopCart.jsp?id=<%=id%>">
 					<span>장바구니</span>
 				</a>
 			</div>
 			<div class="m3">
-				<a href="https://www.fcseoul.com/fcshop/mypage">
+				<a href="EShopWishList.jsp?id=<%=id%>">
 					<span>찜한상품</span>
 				</a>
 			</div>
@@ -380,33 +463,35 @@
 						</div>
 					</div>
 					<%
-					for(EShopCatePageDto dto : prdListBest){
-// 						String goodsImg2 = dto.getGoodsImg();
-// 						String goodsName2 = dto.getGoodsName();
-// 						int price2 = dto.getPrice();
-// 			 			String best2 = dto.getBestP();
-// 			 			String new2 = dto.getNewP();
-// 			 			int goodsId2 = dto.getGoodsId();
+					while(rs2.next()){
+						String goodsImg2 = rs2.getString("goods_img");
+						String goodsName2 = rs2.getString("goods_name");
+						int price2 = rs2.getInt("price");
+			 			String best2 = rs2.getString("best");
+			 			String new2 = rs2.getString("new");
+			 			int goodsId = rs2.getInt("goods_id");
 					%>
 					<div class="best_box fl">
 						<div class="best_content">
-							<a href="EShopDetail.jsp?goodsId=<%=dto.getGoodsId()%>">
-								<img src="<%=dto.getGoodsImg()%>"/>
+							<a href="EShopDetail.jsp?id=<%=id %>&goodsId=<%=goodsId%>">
+								<img src="<%=goodsImg2%>"/>
 							</a>
 							<div class="goods_name">
-								<a href="EShopDetail.jsp?goodsId=<%=dto.getGoodsId()%>"><%=dto.getGoodsName() %></a>
+								<a href="EShopDetail.jsp?id=<%=id %>&goodsId=<%=goodsId%>"><%=goodsName2 %></a>
 							</div>
 							<div class="goods_price">
-								<%=dto.getPrice() %>원
+								<%=price2 %>원
 							</div>
 							<div class="goods_type">
-								<img src="<%=dto.getBestP()%>" onerror="this.style.display='none'"/>
-								<img src="<%=dto.getNewP()%>" onerror="this.style.display='none'"/>
+								<img src="<%=best2%>" onerror="this.style.display='none'"/>
+								<img src="<%=new2%>" onerror="this.style.display='none'"/>
 							</div>
 						</div>
 					</div>
 					<%
 					}
+					rs2.close();
+					pstmt2.close();
 					%>
 				</div>
 				<div class="type_content">
@@ -414,7 +499,7 @@
 						<div class="filter_box">
 							<div class="filter_box_text fl">
 								카테고리에 총 
-								<span><%=count %>개</span>
+								<span><%=count%>개</span>
 								의 상품이 등록되어 있습니다.
 							</div>
 							<div class="filter_box_button">
@@ -432,23 +517,23 @@
 					</div>
 					<div class="type_content_box">
 					<%
-					for(EShopCatePageDto dto : prdList){
-						String goodsImg = dto.getGoodsImg();
-						String goodsName = dto.getGoodsName();
-						int price = dto.getPrice();
-			 			String best = dto.getBestP();
-			 			String cNew = dto.getNewP();
-			 			int goodsId = dto.getGoodsId();
+					while(rs.next()) { 
+						String goodsImg = rs.getString("goods_img");
+			 			String goodsName = rs.getString("goods_name");
+			 			int price = rs.getInt("price");
+			 			String cNew = rs.getString("new");
+			 			String best = rs.getString("best");
+			 			int goodsId = rs.getInt("goods_id");
 					%>
 						<div class="prd_list">
 							<div class="prd_list_wrap">
 								<div class="prd_img">
-									<a href="EShopDetail.jsp?goodsId=<%=goodsId%>">
+									<a href="EShopDetail.jsp?id=<%=id %>&goodsId=<%=goodsId%>">
 										<img src="<%=goodsImg %>"/>
 									</a>
 								</div>
 								<div class="goods_name">
-									<a href="EShopDetail.jsp?<%=goodsId%>">
+									<a href="EShopDetail.jsp?id=<%=id %>&goodsId=<%=goodsId%>">
 										<%=goodsName %>
 									</a>
 								</div>
@@ -464,6 +549,9 @@
 						</div>
 					<%
 					} 
+					rs.close();
+					pstmt.close();
+					conn.close();
 					%>
 						<div style="clear:both;"></div>
 						<div class="bottom_line">
@@ -473,10 +561,10 @@
 						<div style="clear:both;"></div>
 						<div class="page_box">
 							<div class="page_btn">
-								<a href="EShopCatePage.jsp?type=<%=type%>&page=1">
+								<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type%>&page=1">
 									<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_prev2.gif"/>
 								</a>
-								<a href="EShopCatePage.jsp?type=<%=type%>&page=<%=pageNum-1%>">
+								<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type%>&page=<%=pageNum-1%>">
 									<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_prev.gif"/>
 								</a>
 								&nbsp;&nbsp;
@@ -484,13 +572,13 @@
 								for(int i=1; i<=(count/15)+1; i++) {
 									if(pageNum == i) {
 										%>
-										<a href="EShopCatePage.jsp?type=<%=type %>&page=<%=i %>" class="pg">
+										<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type %>&page=<%=i %>" class="pg">
 											<b style="color:#d2232a"><%=i %></b>
 										</a>
 										<%
 									} else {
 										%>
-										<a href="EShopCatePage.jsp?type=<%=type %>&page=<%=i %>" class="pg">
+										<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type %>&page=<%=i %>" class="pg">
 											<b><%=i %></b>
 										</a>
 										<%
@@ -501,19 +589,19 @@
 								<%
 								if(pageNum == (count/15)+1) {
 									%>
-									<a href="EShopCatePage.jsp?type=<%=type%>&page=<%=count/15+1%>">
+									<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type%>&page=<%=count/15+1%>">
 										<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_next.gif"/>
 									</a>
 									<%
 								} else {
 									%>
-									<a href="EShopCatePage.jsp?type=<%=type%>&page=<%=pageNum+1%>">
+									<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type%>&page=<%=pageNum+1%>">
 										<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_next.gif"/>
 									</a>
 									<%	
 								}
 								%>
-								<a href="EShopCatePage.jsp?type=<%=type%>&page=<%=count/15+1%>">
+								<a href="EShopCatePage.jsp?id=<%=id %>&type=<%=type%>&page=<%=count/15+1%>">
 									<img src="https://www.fcseoul.com/resources/shop/_img/board/pg_next2.gif"/>
 								</a>
 							</div>

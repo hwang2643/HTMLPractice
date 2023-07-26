@@ -9,9 +9,14 @@
 <body>
 	<form action="Controller">
 		num1 : <input type="text" name="num1"/> <br/>
-		[+] <br/>
+		<select name="command">
+			<option>선택하세요</option>
+			<option value="plus">+</option>
+			<option value="minus">-</option>
+			<option value="multiply">*</option>
+			<option value="divide">/</option>
+		</select> <br/>
 		num2 : <input type="text" name="num2"/> <br/>
-		<input type="hidden" name="command" value="plus"/>
 		<input type="submit" value="계산!"/>
 	</form>
 </body>
